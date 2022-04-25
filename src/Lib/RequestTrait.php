@@ -4,6 +4,7 @@ namespace Zainpay\SDK\Lib;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use UnexpectedValueException;
 use Zainpay\SDK\Engine;
 use Zainpay\SDK\Response;
 
@@ -44,16 +45,24 @@ trait RequestTrait
     }
 
     /**
-     * @return string|null
+     * @return string
+     * @throws UnexpectedValueException
      */
-    public function getToken(): ?string
+    public function getToken(): string
     {
-        return $this->token ?? Engine::getToken();
+        $token = $this->token ?? Engine::getToken();
+
+        if (empty($token)) {
+            throw new UnexpectedValueException('Please provide token.');
+        }
+
+        return $token;
     }
 
 
     /**
      * @throws GuzzleException
+     * @throws UnexpectedValueException
      */
     public function post(string $url, array $data, array $headers = []): Response
     {
@@ -73,6 +82,7 @@ trait RequestTrait
 
     /**
      * @throws GuzzleException
+     * @throws UnexpectedValueException
      */
     public function get(string $url, array $params = [], array $headers = []): Response
     {
@@ -93,6 +103,7 @@ trait RequestTrait
 
     /**
      * @throws GuzzleException
+     * @throws UnexpectedValueException
      */
     public function patch(string $url, array $data, array $headers = []): Response
     {
@@ -114,6 +125,5 @@ trait RequestTrait
     protected function createClient(array $config): Client
     {
         return new Client($config);
-
     }
 }

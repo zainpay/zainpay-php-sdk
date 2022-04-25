@@ -1,5 +1,5 @@
 {
-    "name": "zainpay/php-sdk",
+    "name": "zainpay/sdk",
     "description": "PHP SDK",
     "type": "library",
     "license": "MIT",
@@ -36,8 +36,5 @@
     "scripts": {
         "test": "phpunit",
         "analyse": "phpstan analyse"
-    },
-    "repositories": [
-        {"type": "composer", "url": "https://zainpay.repo.repman.io"}
-    ]
+    }
 }
