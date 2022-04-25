@@ -1,0 +1,43 @@
+{
+    "name": "zainpay/php-sdk",
+    "description": "PHP SDK",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ahmard",
+            "email": "ahmardy@outlook.com"
+        },
+        {
+            "name": "nurayusuf",
+            "email": "nurakilauren@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.4",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Zainpay\\SDK\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Zainpay\\SDK\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "phpstan/phpstan": "^1.5",
+        "symfony/var-dumper": "^5.4"
+    },
+    "scripts": {
+        "test": "phpunit",
+        "analyse": "phpstan analyse"
+    },
+    "repositories": [
+        {"type": "composer", "url": "https://zainpay.repo.repman.io"}
+    ]
+}
