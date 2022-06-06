@@ -3,8 +3,7 @@
 namespace Zainpay\SDK\Tests;
 
 use GuzzleHttp\Exception\GuzzleException;
-use PHPUnit\Framework\TestCase;
-use Zainpay\SDK\VirtualAccount;
+use Zainpay\SDK\Tests\Classes\VirtualAccount;
 
 class VirtualAccountTest extends TestCase
 {
@@ -19,8 +18,10 @@ class VirtualAccountTest extends TestCase
      */
     public function testAccountBalance(): void
     {
-        $lists = (new VirtualAccount())->balance('4427225285');
-        self::assertTrue($lists->hasSucceeded());
+        $response = VirtualAccount::instantiate()->balance($this->faker->randomNumber());
+
+        self::assertArrayHasKey('balanceAmount', $response->getData() ?? []);
+        self::assertTrue($response->hasSucceeded());
     }
 
     /**
@@ -28,46 +29,55 @@ class VirtualAccountTest extends TestCase
      */
     public function testAccountTransactionsList(): void
     {
-        $lists = (new VirtualAccount())->transactionList('4427225285');
-        self::assertTrue($lists->hasSucceeded());
+        $response = VirtualAccount::instantiate()->transactionList($this->faker->randomNumber());
+        self::assertTrue($response->hasSucceeded());
     }
 
     /**
      * @throws GuzzleException
      */
-    // public function testVerifyTransaction(): void
-    // {
-    //     $lists = (new VirtualAccount())->verifyTransaction('ovouc');
-    //     self::assertTrue($lists->hasSucceeded());
-    // }
+    public function testVerifyTransaction(): void
+    {
+        $response = VirtualAccount::instantiate()->verifyTransaction($this->faker->unique()->text());
+
+        self::assertNotEmpty($response->getData());
+        self::assertArrayHasKey('amount', $response->getData() ?? []);
+        self::assertTrue($response->hasSucceeded());
+    }
 
     /**
      * @throws GuzzleException
      */
-    // public function testChangeVirtualAccountStatus(): void
-    // {
-    //     $lists = (new VirtualAccount())->changeVirtualAccountStatus('0UW8e14g4xJxmxMbHkMy', '4427225285', true);
-    //     self::assertTrue($lists->hasSucceeded());
-    // }
+    public function testChangeVirtualAccountStatus(): void
+    {
+        $response = VirtualAccount::instantiate()->changeVirtualAccountStatus(
+            $this->faker->unique()->text(),
+            $this->faker->randomNumber(),
+            true
+        );
+
+        self::assertTrue($response->hasSucceeded());
+    }
 
     /**
+     * @return void
      * @throws GuzzleException
      */
-    // public function testVirtualAccountCreation(): void
-    // {
-    //     $zainbox = new VirtualAccount();
-    //     $response = $zainbox->createVirtualAccount(
-    //         "firstname_" . $this->name,
-    //         "surname_" . $this->name,
-    //         "test{$this->name}@zainpay.ng",
-    //         date("d-m-Y"),
-    //         'M',
-    //         'address',
-    //         'Mr',
-    //         'Kano',
-    //         '0UW8e14g4xJxmxMbHkMy',
-    //     );
+    public function testVirtualAccountCreation(): void
+    {
+        $response = VirtualAccount::instantiate()->createVirtualAccount(
+            $this->faker->name(),
+            $this->faker->name(),
+            $this->faker->email(),
+            $this->faker->date(),
+            ['Male', 'Femaile'][rand(0, 1)],
+            $this->faker->address(),
+            $this->faker->title(),
+            $this->faker->city(),
+            $this->faker->unique()->text(7)
+        );
 
-    //     self::assertTrue($response->hasSucceeded());
-    // }
+        self::assertTrue($response->hasSucceeded());
+        self::assertArrayHasKey('bankName', $response->getData() ?? []);
+    }
 }

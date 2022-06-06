@@ -1,0 +1,21 @@
+{
+  "code": "00",
+  "data": {
+    "account2AccountBilling": {
+      "fixedCharge": "0",
+      "percentageCharge": 1.4
+    },
+    "interBankBilling": {
+      "fixedCharge": "4000",
+      "percentageCharge": 1.3
+    },
+    "zainbox": {
+      "callbackUrl": "http://10e1-41-184-106-54.ngrok.io/notification",
+      "codeName": "THbfnDvK5o",
+      "name": "test-box",
+      "tags": "land, management"
+    }
+  },
+  "description": "successful",
+  "status": "Success"
+}

@@ -1,0 +1,19 @@
+{
+  "code": "00",
+  "data": [
+    {
+      "code": "120001",
+      "name": "9PAYMENT SERVICE BANK"
+    },
+    {
+      "code": "090270",
+      "name": "AB MICROFINANCE BANK"
+    },
+    {
+      "code": "070010",
+      "name": "ABBEY MORTGAGE BANK"
+    }
+  ],
+  "description": "Bank list",
+  "status": "Success"
+}

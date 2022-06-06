@@ -1,0 +1,25 @@
+{
+  "code": "00",
+  "data": [
+    {
+      "accountNumber": "7964524199",
+      "amount": 45000,
+      "balance": 45000,
+      "narration": "",
+      "transactionDate": "2021-12-28T11:47:45",
+      "transactionRef": "",
+      "transactionType": "deposit"
+    },
+    {
+      "accountNumber": "7964524199",
+      "amount": 923000,
+      "balance": 968000,
+      "narration": "",
+      "transactionDate": "2021-12-28T11:48:35",
+      "transactionRef": "",
+      "transactionType": "deposit"
+    }
+  ],
+  "description": "successful",
+  "status": "Success"
+}

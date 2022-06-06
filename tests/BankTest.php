@@ -3,8 +3,7 @@
 namespace Zainpay\SDK\Tests;
 
 use GuzzleHttp\Exception\GuzzleException;
-use PHPUnit\Framework\TestCase;
-use Zainpay\SDK\Bank;
+use Zainpay\SDK\Tests\Classes\Bank;
 
 class BankTest extends TestCase
 {
@@ -19,7 +18,7 @@ class BankTest extends TestCase
      */
     public function testListOfBanks(): void
     {
-        $lists = (new Bank())->list();
+        $lists = Bank::instantiate()->list();
         self::assertTrue($lists->hasSucceeded());
     }
 
@@ -27,9 +26,13 @@ class BankTest extends TestCase
      * @return void
      * @throws GuzzleException
      */
-    public static function testAccountNameEnquiry(): void
+    public function testAccountNameEnquiry(): void
     {
-        $lists = (new Bank())->accountNameEnquiry('000015', '4427225285');
+        $lists = Bank::instantiate()->accountNameEnquiry(
+            $this->faker->unique()->text(),
+            $this->faker->randomNumber()
+        );
+
         self::assertTrue($lists->hasSucceeded());
     }
 
@@ -37,19 +40,19 @@ class BankTest extends TestCase
      * TODO: to be commented out when bank list is available
      * @throws GuzzleException
      */
-    // public function testTransfer(): void
-    // {
-    //     $response = (new Bank())->transfer(
-    //         "4426334208", 
-    //         "000015", 
-    //         "5",
-    //         "4427225285", 
-    //         "000015",
-    //         "0UW8e14g4xJxmxMbHkMy", 
-    //         time(), 
-    //         "Test"
-    //     );
+     public function testTransfer(): void
+     {
+         $response = Bank::instantiate()->transfer(
+             $this->faker->randomNumber(),
+             strval($this->faker->randomNumber()),
+             strval($this->faker->randomNumber()),
+             $this->faker->randomNumber(),
+             strval($this->faker->randomNumber()),
+             $this->faker->unique()->text(),
+             $this->faker->unique()->text(),
+             $this->faker->unique()->text()
+         );
 
-    //     self::assertTrue($response->hasSucceeded());
-    // }
+         self::assertTrue($response->hasSucceeded());
+     }
 }

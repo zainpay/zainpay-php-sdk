@@ -3,34 +3,43 @@
 namespace Zainpay\SDK\Tests;
 
 use GuzzleHttp\Exception\GuzzleException;
-use PHPUnit\Framework\TestCase;
-use Zainpay\SDK\ZainBox;
+use Zainpay\SDK\Tests\Classes\ZainBox;
 
 class ZainBoxTest extends TestCase
 {
-    protected static string $name;
+    protected static string $name = 'zbuss.Online';
 
     protected function setUp(): void
     {
+        parent::setUp();
         TestableEngine::useDummyToken();
     }
 
-    /**
-     * @throws GuzzleException
-     */
     public function testZainboxCreation(): void
     {
-        $time = time();
-        static::$name = uniqid();
-
-        $response = (new ZainBox())->create(
-            static::$name,
-            "test{$time}@zainpay.ng",
-            ['food', 'drinks'],
-            'https://webhook.example.com'
+        $response = ZainBox::instantiate()->create(
+            $this->faker->email(),
+            $this->faker->name(),
+            $this->faker->unique()->words(rand(2, 5)),
+            $this->faker->url()
         );
 
         self::assertTrue($response->hasSucceeded());
+        self::assertSame(($response->getData() ?? [])['name'], 'test.Onlines');
+    }
+
+    public function testZainboxDuplicateCreation(): void
+    {
+        $response = ZainBox::instantiate()->createDuplicate(
+            $this->faker->email(),
+            $this->faker->name(),
+            $this->faker->unique()->words(rand(2, 5)),
+            $this->faker->url()
+        );
+
+        self::assertFalse($response->hasSucceeded());
+        self::assertTrue($response->hasFailed());
+        self::assertSame($response->getStatus(), 'DuplicateRequest');
     }
 
     /**
@@ -39,14 +48,19 @@ class ZainBoxTest extends TestCase
      */
     public function testListZainBoxes(): void
     {
-        $response = (new ZainBox())->list();
+        $response = ZainBox::instantiate()->list();
+
         self::assertTrue($response->hasSucceeded());
 
         $zainboxes = $response->getData();
-        $lastZainbox = end($zainboxes);
 
-        self::assertSame(static::$name, $lastZainbox['name']);
-        self::assertSame('food,drinks', $lastZainbox['tags']);
+        self::assertIsArray($zainboxes);
+
+        if (is_array($zainboxes)) {
+            $lastZainbox = end($zainboxes);
+            self::assertSame(static::$name, $lastZainbox['name']);
+            self::assertSame('food,drinks', $lastZainbox['tags']);
+        }
     }
 
     /**
@@ -55,8 +69,10 @@ class ZainBoxTest extends TestCase
      */
     public function testAllZainboxesTransactionsList(): void
     {
-        $response = (new ZainBox())->merchantTransactionList();
+        $response = ZainBox::instantiate()->merchantTransactionList();
+
         self::assertTrue($response->hasSucceeded());
+        self::assertSame('7964524199', ($response->getData() ?? [])[0]['accountNumber']);
     }
 
     /**
@@ -65,7 +81,7 @@ class ZainBoxTest extends TestCase
      */
     public function testZainboxTransactionsList(): void
     {
-        $response = (new ZainBox())->transactionList('0UW8e14g4xJxmxMbHkMy');
+        $response = ZainBox::instantiate()->transactionList($this->faker->unique()->text());
         self::assertTrue($response->hasSucceeded());
     }
 
@@ -75,8 +91,10 @@ class ZainBoxTest extends TestCase
      */
     public function testZainboxProfile(): void
     {
-        $response = (new ZainBox())->profile('0UW8e14g4xJxmxMbHkMy');
+        $response = ZainBox::instantiate()->profile($this->faker->unique()->text());
+
         self::assertTrue($response->hasSucceeded());
+        self::assertArrayHasKey('zainbox', $response->getData() ?? []);
     }
 
     /**
@@ -85,7 +103,8 @@ class ZainBoxTest extends TestCase
      */
     public function testGetZainboxSettlement(): void
     {
-        $response = (new ZainBox())->getSettlement('0UW8e14g4xJxmxMbHkMy');
+        $response = ZainBox::instantiate()->getSettlement($this->faker->unique()->text());
+
         self::assertTrue($response->hasSucceeded());
     }
 
@@ -95,7 +114,7 @@ class ZainBoxTest extends TestCase
      */
     public function testZainboxVirtualAccountsList(): void
     {
-        $response = (new ZainBox())->listVirtualAccounts('0UW8e14g4xJxmxMbHkMy');
+        $response = (new ZainBox())->listVirtualAccounts($this->faker->unique()->text());
         self::assertTrue($response->hasSucceeded());
     }
 
@@ -105,25 +124,25 @@ class ZainBoxTest extends TestCase
      */
     public function testPaymentCollectedByZainbox(): void
     {
-        $response = (new ZainBox())->totalPaymentCollected('0UW8e14g4xJxmxMbHkMy', null, null);
+        $response = ZainBox::instantiate()->totalPaymentCollected($this->faker->unique()->text());
+
         self::assertTrue($response->hasSucceeded());
+        self::assertNotEmpty($response->getData());
+        self::assertArrayHasKey('total', ($response->getData() ?? [])[0]);
     }
 
     /**
      * @throws GuzzleException
      */
-    public function testZainboxSettlementCreation(): void
+    public function ZainboxSettlementCreation(): void
     {
-        $zainbox = new ZainBox();
-        $response = $zainbox->createSettlement(
+        $response = ZainBox::instantiate()->createSettlement(
             'settlement_' . static::$name,
             '0UW8e14g4xJxmxMbHkMy',
             'T1',
             'Daily',
-            [
-                $zainbox->constructSettlementAccountPayload("4427225285", "ZP001", 90),
-                $zainbox->constructSettlementAccountPayload("4421566463", "ZP001", 10)
-            ],
+            /**@phpstan-ignore-next-line **/
+            $this->faker->unique()->words(rand(2, 5)),
             true
         );
 

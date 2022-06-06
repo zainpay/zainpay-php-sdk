@@ -1,0 +1,17 @@
+{
+  "code": "00",
+  "data": [
+    {
+      "bankAccount": "7964524199",
+      "bankName": "035",
+      "name": "Jamila Abubakar "
+    },
+    {
+      "bankAccount": "7969105180",
+      "bankName": "035",
+      "name": "Farida Ummi "
+    }
+  ],
+  "description": "successful",
+  "status": "Success"
+}

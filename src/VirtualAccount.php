@@ -12,13 +12,12 @@ class VirtualAccount
     /**
      * Get the current wallet balance of a virtual account number
      *
-     * @param string $accountNumber
+     * @param int $accountNumber
      * @return Response
      * @throws GuzzleException
-     *
      * @link https://zainpay.ng/developers/api-endpoints?section=virtual-account-balance
      */
-    public function balance(string $accountNumber): Response
+    public function balance(int $accountNumber): Response
     {
         return $this->get($this->getModeUrl() . 'virtual-account/wallet/balance/' . $accountNumber);
     }
@@ -26,13 +25,12 @@ class VirtualAccount
     /**
      * Get all transactions of an account
      *
-     * @param string $accountNumber
+     * @param int $accountNumber
      * @return Response
      * @throws GuzzleException
-     *
      * @link https://zainpay.ng/developers/api-endpoints?section=virtual-account-transactions
      */
-    public function transactionList(string $accountNumber): Response
+    public function transactionList(int $accountNumber): Response
     {
         return $this->get($this->getModeUrl() . 'virtual-account/wallet/transactions/' . $accountNumber);
     }
@@ -80,7 +78,7 @@ class VirtualAccount
         string $zainboxCode
     ): Response
     {
-        return $this->post($this->getModeUrl() . 'virtual-account/create', [
+        return $this->post($this->getModeUrl() . 'virtual-account/create/request', [
             'bankType' => "wemaBank",
             'firstName' => $firstName,
             'surname' => $surname,
@@ -98,7 +96,7 @@ class VirtualAccount
      * Activate or deactivate virtual account
      *
      * @param string $zainboxCode
-     * @param string $accountNumber
+     * @param int $accountNumber
      * @param bool $status
      * @return Response
      * @throws GuzzleException
@@ -107,13 +105,13 @@ class VirtualAccount
      */
     public function changeVirtualAccountStatus(
         string $zainboxCode,
-        string $accountNumber,
+        int    $accountNumber,
         bool   $status
     ): Response
     {
         return $this->patch($this->getModeUrl() . '/virtual-account/change/account/status', [
             'zainboxCode' => $zainboxCode,
-            'accountNumber' => $accountNumber,
+            'accountNumber' => strval($accountNumber),
             'status' => $status
         ]);
     }

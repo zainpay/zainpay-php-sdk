@@ -26,17 +26,16 @@ class Bank
      * Use the bankCode acquired from the get bank list to validate a bank account number.
      *
      * @param string $bankCode
-     * @param string $accountNumber
+     * @param int $accountNumber
      * @return Response
      * @throws GuzzleException
-     *
      * @link https://zainpay.ng/developers/api-endpoints?section=name-enquiry
      */
-    public function accountNameEnquiry(string $bankCode, string $accountNumber): Response
+    public function accountNameEnquiry(string $bankCode, int $accountNumber): Response
     {
         return $this->get($this->getModeUrl() . 'bank/name-enquiry', [
             'bankCode' => $bankCode,
-            'accountNumber' => $accountNumber
+            'accountNumber' => strval($accountNumber)
         ]);
     }
 
@@ -52,24 +51,23 @@ class Bank
      * The amount in the JSON request should be converted to kobo decimalization.
      * It is expected that neither float nor double values will be utilized in this case.
      *
-     * @param string $destinationAccountNumber
+     * @param int $destinationAccountNumber
      * @param string $destinationBankCode
      * @param string $amount
-     * @param string $sourceAccountNumber
+     * @param int $sourceAccountNumber
      * @param string $sourceBankCode
      * @param string $zainBoxCode
      * @param string $txnRef
      * @param string $narration
      * @return Response
      * @throws GuzzleException
-     *
      * @link https://zainpay.ng/developers/api-endpoints?section=funds-transfer
      */
     public function transfer(
-        string $destinationAccountNumber,
+        int    $destinationAccountNumber,
         string $destinationBankCode,
         string $amount,
-        string $sourceAccountNumber,
+        int    $sourceAccountNumber,
         string $sourceBankCode,
         string $zainBoxCode,
         string $txnRef,
@@ -77,10 +75,10 @@ class Bank
     ): Response
     {
         return $this->post($this->getModeUrl() . 'bank/transfer', [
-            'destinationAccountNumber' => $destinationAccountNumber,
+            'destinationAccountNumber' => strval($destinationAccountNumber),
             'destinationBankCode' => $destinationBankCode,
             'amount' => $amount,
-            'sourceAccountNumber' => $sourceAccountNumber,
+            'sourceAccountNumber' => strval($sourceAccountNumber),
             'sourceBankCode' => $sourceBankCode,
             'zainBoxCode' => $zainBoxCode,
             'txnRef' => $txnRef,
