@@ -1,0 +1,14 @@
+{
+  "code": "00",
+  "data": [
+    {
+      "count": 1,
+      "dateFrom": "2022-02",
+      "dateTo": "2022-03",
+      "total": "50000",
+      "transactionType": "transfer"
+    }
+  ],
+  "description": "Summary grouped by txn type",
+  "status": "Success"
+}

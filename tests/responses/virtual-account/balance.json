@@ -1,0 +1,11 @@
+{
+  "code": "00",
+  "data": {
+    "accountName": "Aminu Nasar Adam",
+    "accountNumber": "7966884043",
+    "balanceAmount": 372555,
+    "transactionDate": "2021-10-13T13:45:52"
+  },
+  "description": "successful",
+  "status": "Success"
+}

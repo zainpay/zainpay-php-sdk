@@ -1,0 +1,14 @@
+{
+  "code": "00",
+  "data": {
+    "amount": "8431",
+    "destinationAccountNumber": "0044159752",
+    "destinationBankCode": "000005",
+    "narration": "lunch for naimat",
+    "sourceAccountNumber": "7964524199",
+    "txnDate": "2021-12-29T08:00:49",
+    "txnStatus": "success"
+  },
+  "description": "successful",
+  "status": "Success"
+}

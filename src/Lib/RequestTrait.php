@@ -14,6 +14,9 @@ trait RequestTrait
     private ?string $token = null;
 
 
+    /**
+     * @return static
+     */
     public static function instantiate()
     {
         return new static();

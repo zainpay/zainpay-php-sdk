@@ -1,0 +1,23 @@
+{
+    "code": "200",
+    "data": {
+        "name": "new-daily-settlement3",
+        "schedulePeriod": "Daily",
+        "scheduleType": "T1",
+        "settlementAccounts": [
+            {
+                "accountNumber": "1234567890",
+                "bankCode": "0009",
+                "percentage": "20"
+            },
+            {
+                "accountNumber": "1234567890",
+                "bankCode": "0009",
+                "percentage": "80"
+            }
+        ],
+        "zainbox": "7eOQfvaVHvcds05eWH4t"
+    },
+    "description": "Successful",
+    "status": "Success"
+}
