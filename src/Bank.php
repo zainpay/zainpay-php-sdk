@@ -31,11 +31,11 @@ class Bank
      * @throws GuzzleException
      * @link https://zainpay.ng/developers/api-endpoints?section=name-enquiry
      */
-    public function accountNameEnquiry(string $bankCode, int $accountNumber): Response
+    public function accountNameEnquiry(string $bankCode, string $accountNumber): Response
     {
         return $this->get($this->getModeUrl() . 'bank/name-enquiry', [
             'bankCode' => $bankCode,
-            'accountNumber' => strval($accountNumber)
+            'accountNumber' => $accountNumber
         ]);
     }
 
@@ -51,10 +51,10 @@ class Bank
      * The amount in the JSON request should be converted to kobo decimalization.
      * It is expected that neither float nor double values will be utilized in this case.
      *
-     * @param int $destinationAccountNumber
+     * @param string $destinationAccountNumber
      * @param string $destinationBankCode
      * @param string $amount
-     * @param int $sourceAccountNumber
+     * @param string $sourceAccountNumber
      * @param string $sourceBankCode
      * @param string $zainBoxCode
      * @param string $txnRef
@@ -64,10 +64,10 @@ class Bank
      * @link https://zainpay.ng/developers/api-endpoints?section=funds-transfer
      */
     public function transfer(
-        int    $destinationAccountNumber,
+        string $destinationAccountNumber,
         string $destinationBankCode,
         string $amount,
-        int    $sourceAccountNumber,
+        string $sourceAccountNumber,
         string $sourceBankCode,
         string $zainBoxCode,
         string $txnRef,
@@ -75,10 +75,10 @@ class Bank
     ): Response
     {
         return $this->post($this->getModeUrl() . 'bank/transfer', [
-            'destinationAccountNumber' => strval($destinationAccountNumber),
+            'destinationAccountNumber' => $destinationAccountNumber,
             'destinationBankCode' => $destinationBankCode,
             'amount' => $amount,
-            'sourceAccountNumber' => strval($sourceAccountNumber),
+            'sourceAccountNumber' => $sourceAccountNumber,
             'sourceBankCode' => $sourceBankCode,
             'zainBoxCode' => $zainBoxCode,
             'txnRef' => $txnRef,

@@ -20,14 +20,39 @@ class ZainBox
     public function create(
         string $name,
         string $email,
-        array  $tags,
+        string  $tags,
         string $callbackUrl
     ): Response
     {
         return $this->post($this->getModeUrl() . 'zainbox/create/request', [
             'name' => $name,
-            'email' => $email,
-            'tags' => implode(',', $tags),
+            'email'=> $email,
+            'tags' => $tags,
+            'callbackUrl' => $callbackUrl
+        ]);
+    }
+
+    /**
+     * @param string $name
+     * @param string $email
+     * @param array $tags
+     * @param string $callbackUrl
+     * @return Response
+     * @throws GuzzleException
+     */
+    public function update(
+        string $name,
+        string $emailNotification,
+        string $tags,
+        string $callbackUrl,
+        string $zainboxCode
+    ): Response
+    {
+        return $this->patch($this->getModeUrl() . 'zainbox/update', [
+            'name' => $name,
+            'emailNotification'=> $emailNotification,
+            'tags' => $tags,
+            'codeName' => $zainboxCode,
             'callbackUrl' => $callbackUrl
         ]);
     }
@@ -81,6 +106,20 @@ class ZainBox
     public function transactionHistory(string $zainboxCode): Response
     {
         return $this->transactionList($zainboxCode);
+    }
+
+    /**
+     * Get a list of transactions from a particular virtualAccount
+     *
+     * @param string $virtualAccount
+     * @return Response
+     * @throws GuzzleException
+     *
+     * @link https://zainpay.ng/developers/api-endpoints?section=zainbox-transactions-history
+     */
+    public function virtualAccountTransactionList(string $virtualAccount): Response
+    {
+        return $this->get($this->getModeUrl() . 'virtual-account/wallet/transactions/' . $virtualAccount);
     }
 
     /**
@@ -178,7 +217,31 @@ class ZainBox
      */
     public function totalPaymentCollected(string $zainboxCode, ?string $dateFrom = null, ?string $dateTo = null): Response
     {
-        return $this->get($this->getModeUrl() . 'zainbox/transfer/deposit/summary/' . $zainboxCode);
+        $period = "";
+        if($dateFrom != null && $dateTo != null){
+            $period = "?dateFrom=$dateFrom&dateTo=$dateTo";
+        }
+        return $this->get($this->getModeUrl() . 'zainbox/transfer/deposit/summary/' . $zainboxCode . $period);
+    }
+
+    /**
+     * Get the sum of total amount collected by all virtual accounts for a merchant in a particular period,
+     * for both transfer and deposit transactions
+     *
+     * @param string|null $dateFrom
+     * @param string|null $dateTo
+     * @return Response
+     * @throws GuzzleException
+     *
+     * @link https://zainpay.ng/developers/api-endpoints?section=total-payment-by-merchant
+     */
+    public function totalPaymentCollectedByMerchant(?string $dateFrom = null, ?string $dateTo = null): Response
+    {
+        $period = "";
+        if($dateFrom != null && $dateTo != null){
+            $period = "?dateFrom=$dateFrom&dateTo=$dateTo";
+        }
+        return $this->get($this->getModeUrl() . 'zainbox/transfer/deposit/summary'.$period);
     }
 
 
