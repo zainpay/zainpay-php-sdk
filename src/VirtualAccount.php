@@ -12,12 +12,12 @@ class VirtualAccount
     /**
      * Get the current wallet balance of a virtual account number
      *
-     * @param int $accountNumber
+     * @param string $accountNumber
      * @return Response
      * @throws GuzzleException
      * @link https://zainpay.ng/developers/api-endpoints?section=virtual-account-balance
      */
-    public function balance(int $accountNumber): Response
+    public function balance(string $accountNumber): Response
     {
         return $this->get($this->getModeUrl() . 'virtual-account/wallet/balance/' . $accountNumber);
     }
@@ -25,12 +25,12 @@ class VirtualAccount
     /**
      * Get all transactions of an account
      *
-     * @param int $accountNumber
+     * @param string $accountNumber
      * @return Response
      * @throws GuzzleException
      * @link https://zainpay.ng/developers/api-endpoints?section=virtual-account-transactions
      */
-    public function transactionList(int $accountNumber): Response
+    public function transactionList(string $accountNumber): Response
     {
         return $this->get($this->getModeUrl() . 'virtual-account/wallet/transactions/' . $accountNumber);
     }
@@ -47,6 +47,20 @@ class VirtualAccount
     public function verifyTransaction(string $tnxId): Response
     {
         return $this->get($this->getModeUrl() . 'virtual-account/wallet/transaction/verify/' . $tnxId);
+    }
+
+    /**
+     * The endpoint can be used to verify a posted transaction by its reference (The txnRef acquired after successful Funds Transfer )
+     *
+     * @param string $tnxId
+     * @return Response
+     * @throws GuzzleException
+     *
+     * @link https://zainpay.ng/developers/api-endpoints?section=transaction-verification
+     */
+    public function verifyDepositTransaction(string $tnxId): Response
+    {
+        return $this->get($this->getModeUrl() . 'virtual-account/wallet/deposit/verify/' . $tnxId);
     }
 
     /**
@@ -96,7 +110,7 @@ class VirtualAccount
      * Activate or deactivate virtual account
      *
      * @param string $zainboxCode
-     * @param int $accountNumber
+     * @param string $accountNumber
      * @param bool $status
      * @return Response
      * @throws GuzzleException
@@ -105,13 +119,13 @@ class VirtualAccount
      */
     public function changeVirtualAccountStatus(
         string $zainboxCode,
-        int    $accountNumber,
+        string $accountNumber,
         bool   $status
     ): Response
     {
         return $this->patch($this->getModeUrl() . '/virtual-account/change/account/status', [
             'zainboxCode' => $zainboxCode,
-            'accountNumber' => strval($accountNumber),
+            'accountNumber' => $accountNumber,
             'status' => $status
         ]);
     }
