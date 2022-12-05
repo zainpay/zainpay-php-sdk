@@ -34,9 +34,10 @@ class ZainBox
 
     /**
      * @param string $name
-     * @param string $email
+     * @param string $emailNotification
      * @param array $tags
      * @param string $callbackUrl
+     * @param string $zainboxCode
      * @return Response
      * @throws GuzzleException
      */

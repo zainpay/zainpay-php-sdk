@@ -129,4 +129,14 @@ class VirtualAccount
             'status' => $status
         ]);
     }
+
+    /**
+     * @throws GuzzleException
+     */
+    public function allVirtualAccountsBalanceOfZainBox(
+        String $zainboxCode
+    ): Response
+    {
+        return $this->get($this->getModeUrl(). '/zainbox/accounts/balance/'. $zainboxCode);
+    }
 }
