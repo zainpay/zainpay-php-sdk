@@ -16,7 +16,10 @@ class Bank extends \Zainpay\SDK\Bank
         );
     }
 
-    public function accountNameEnquiry(string $bankCode, int $accountNumber): Response
+    public function accountNameEnquiry(
+        string $bankCode,
+        string $accountNumber
+    ): Response
     {
         return Mockery::mockResponseFromFile(
             'GET',
@@ -25,7 +28,13 @@ class Bank extends \Zainpay\SDK\Bank
         );
     }
 
-    public function transfer(int $destinationAccountNumber, string $destinationBankCode, string $amount, int $sourceAccountNumber, string $sourceBankCode, string $zainBoxCode, string $txnRef, string $narration): Response
+    public function transfer(
+        string $destinationAccountNumber,
+        string $destinationBankCode,
+        string $amount,
+        string $sourceAccountNumber,
+        string $sourceBankCode,
+        string $zainBoxCode, string $txnRef, string $narration): Response
     {
         return Mockery::mockResponseFromFile(
             'GET',

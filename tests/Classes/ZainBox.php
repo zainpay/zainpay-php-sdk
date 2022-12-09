@@ -7,7 +7,13 @@ use Zainpay\SDK\Tests\Mockery;
 
 class ZainBox extends \Zainpay\SDK\ZainBox
 {
-    public function create(string $name, string $email, array $tags, string $callbackUrl): Response
+    public function create(
+        string $name,
+        string $email,
+        array $tags,
+        string $callbackUrl,
+        string $codeNamePrefix = null
+    ): Response
     {
         return Mockery::mockResponseFromFile(
             'GET',

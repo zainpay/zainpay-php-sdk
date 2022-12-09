@@ -14,21 +14,31 @@ class ZainBox
      * @param string $email
      * @param array $tags
      * @param string $callbackUrl
+     * @param string|null $codeNamePrefix
      * @return Response
      * @throws GuzzleException
      */
     public function create(
         string $name,
         string $email,
-        string  $tags,
-        string $callbackUrl
+        array $tags,
+        string $callbackUrl,
+        string $codeNamePrefix = null
     ): Response
     {
-        return $this->post($this->getModeUrl() . 'zainbox/create/request', [
+        $payload = [
             'name' => $name,
             'email'=> $email,
             'tags' => $tags,
-            'callbackUrl' => $callbackUrl
+            'callbackUrl' => $callbackUrl,
+            'codeNamePrefix' => $codeNamePrefix
+        ];
+
+        if($codeNamePrefix != null) {
+            $payload['codeNamePrefix'] = $codeNamePrefix;
+        }
+        return $this->post($this->getModeUrl() . 'zainbox/create/request', [
+            $payload
         ]);
     }
 
@@ -38,24 +48,32 @@ class ZainBox
      * @param array $tags
      * @param string $callbackUrl
      * @param string $zainboxCode
+     * @param string|null $codeNamePrefix
      * @return Response
      * @throws GuzzleException
      */
     public function update(
         string $name,
         string $emailNotification,
-        string $tags,
+        array  $tags,
         string $callbackUrl,
-        string $zainboxCode
+        string $zainboxCode,
+        string $codeNamePrefix = null
     ): Response
     {
-        return $this->patch($this->getModeUrl() . 'zainbox/update', [
+        $payload = [
             'name' => $name,
             'emailNotification'=> $emailNotification,
             'tags' => $tags,
             'codeName' => $zainboxCode,
             'callbackUrl' => $callbackUrl
-        ]);
+        ];
+
+        if($codeNamePrefix != null) {
+            $payload['codeNamePrefix'] = $codeNamePrefix;
+        }
+
+        return $this->patch($this->getModeUrl() . 'zainbox/update', $payload);
     }
 
     /**
