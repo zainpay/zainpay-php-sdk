@@ -48,7 +48,6 @@ class ZainBox
      * @param array $tags
      * @param string $callbackUrl
      * @param string $zainboxCode
-     * @param string|null $codeNamePrefix
      * @return Response
      * @throws GuzzleException
      */
@@ -57,8 +56,7 @@ class ZainBox
         string $emailNotification,
         array  $tags,
         string $callbackUrl,
-        string $zainboxCode,
-        string $codeNamePrefix = null
+        string $zainboxCode
     ): Response
     {
         $payload = [
@@ -69,9 +67,6 @@ class ZainBox
             'callbackUrl' => $callbackUrl
         ];
 
-        if($codeNamePrefix != null) {
-            $payload['codeNamePrefix'] = $codeNamePrefix;
-        }
 
         return $this->patch($this->getModeUrl() . 'zainbox/update', $payload);
     }
@@ -234,12 +229,9 @@ class ZainBox
      *
      * @link https://zainpay.ng/developers/api-endpoints?section=total-payment-by-zainbox
      */
-    public function totalPaymentCollected(string $zainboxCode, ?string $dateFrom = null, ?string $dateTo = null): Response
+    public function totalPaymentCollectedByZainbox(string $zainboxCode, string $dateFrom , string $dateTo): Response
     {
-        $period = "";
-        if($dateFrom != null && $dateTo != null){
-            $period = "?dateFrom=$dateFrom&dateTo=$dateTo";
-        }
+        $period = "?dateFrom=$dateFrom&dateTo=$dateTo";
         return $this->get($this->getModeUrl() . 'zainbox/transfer/deposit/summary/' . $zainboxCode . $period);
     }
 
@@ -254,12 +246,9 @@ class ZainBox
      *
      * @link https://zainpay.ng/developers/api-endpoints?section=total-payment-by-merchant
      */
-    public function totalPaymentCollectedByMerchant(?string $dateFrom = null, ?string $dateTo = null): Response
+    public function totalPaymentCollectedByMerchant(string $dateFrom, string $dateTo): Response
     {
-        $period = "";
-        if($dateFrom != null && $dateTo != null){
-            $period = "?dateFrom=$dateFrom&dateTo=$dateTo";
-        }
+        $period = "?dateFrom=$dateFrom&dateTo=$dateTo";
         return $this->get($this->getModeUrl() . 'zainbox/transfer/deposit/summary'.$period);
     }
 

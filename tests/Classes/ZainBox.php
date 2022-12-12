@@ -85,7 +85,16 @@ class ZainBox extends \Zainpay\SDK\ZainBox
         );
     }
 
-    public function totalPaymentCollected(string $zainboxCode, ?string $dateFrom = null, ?string $dateTo = null): Response
+    public function totalPaymentCollectedByZainbox(string $zainboxCode, ?string $dateFrom = null, ?string $dateTo = null): Response
+    {
+        return Mockery::mockResponseFromFile(
+            'GET',
+            '/',
+            dirname(__DIR__) . '/responses/zainbox/collected-payments.json'
+        );
+    }
+
+    public function totalPaymentCollectedByMerchant(string $dateFrom, string $dateTo): Response
     {
         return Mockery::mockResponseFromFile(
             'GET',

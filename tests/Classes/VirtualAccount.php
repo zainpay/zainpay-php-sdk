@@ -27,7 +27,7 @@ class VirtualAccount extends \Zainpay\SDK\VirtualAccount
         );
     }
 
-    public function verifyTransaction(string $tnxId): Response
+    public function verifyTransfer(string $tnxId): Response
     {
         return Mockery::mockResponseFromFile(
             'GET',

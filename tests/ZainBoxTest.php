@@ -124,7 +124,19 @@ class ZainBoxTest extends TestCase
      */
     public function testPaymentCollectedByZainbox(): void
     {
-        $response = ZainBox::instantiate()->totalPaymentCollected($this->faker->unique()->text());
+        $response = ZainBox::instantiate()->totalPaymentCollectedByZainbox($this->faker->unique()->text());
+
+        self::assertTrue($response->hasSucceeded());
+        self::assertNotEmpty($response->getData());
+        self::assertArrayHasKey('total', ($response->getData() ?? [])[0]);
+    }
+
+    /**
+     * @throws GuzzleException
+     */
+    public function testPaymentCollectedByMerchant(): void
+    {
+        $response = ZainBox::instantiate()->totalPaymentCollectedByMerchant($this->faker->date("Y-m-d"), $this->faker->date("Y-m-d"));
 
         self::assertTrue($response->hasSucceeded());
         self::assertNotEmpty($response->getData());

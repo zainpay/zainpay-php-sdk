@@ -38,7 +38,7 @@ class VirtualAccountTest extends TestCase
      */
     public function testVerifyTransaction(): void
     {
-        $response = VirtualAccount::instantiate()->verifyTransaction($this->faker->unique()->text());
+        $response = VirtualAccount::instantiate()->verifyTransfer($this->faker->unique()->text());
 
         self::assertNotEmpty($response->getData());
         self::assertArrayHasKey('amount', $response->getData() ?? []);
@@ -70,7 +70,7 @@ class VirtualAccountTest extends TestCase
             $this->faker->name(),
             $this->faker->email(),
             $this->faker->date(),
-            ['Male', 'Femaile'][rand(0, 1)],
+            ['Male', 'Female'][rand(0, 1)],
             $this->faker->address(),
             $this->faker->title(),
             $this->faker->city(),
