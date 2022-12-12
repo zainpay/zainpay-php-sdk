@@ -222,8 +222,8 @@ class ZainBox
      * for both transfer and deposit transactions
      *
      * @param string $zainboxCode
-     * @param string|null $dateFrom
-     * @param string|null $dateTo
+     * @param string $dateFrom
+     * @param string $dateTo
      * @return Response
      * @throws GuzzleException
      *
@@ -239,8 +239,8 @@ class ZainBox
      * Get the sum of total amount collected by all virtual accounts for a merchant in a particular period,
      * for both transfer and deposit transactions
      *
-     * @param string|null $dateFrom
-     * @param string|null $dateTo
+     * @param string $dateFrom
+     * @param string $dateTo
      * @return Response
      * @throws GuzzleException
      *
