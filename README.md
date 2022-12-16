@@ -158,7 +158,7 @@ $response = VirtualAccount::instantiate()->createVirtualAccount(
 );
 
 if ($response->hasSucceeded()){
-    echo "Zainbox Virtual Account Created";
+    echo "Virtual Account Created";
 }
 ```
 ### Get All Virtual Account
