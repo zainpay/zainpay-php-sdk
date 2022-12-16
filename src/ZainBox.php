@@ -14,47 +14,61 @@ class ZainBox
      * @param string $email
      * @param array $tags
      * @param string $callbackUrl
+     * @param string|null $codeNamePrefix
      * @return Response
      * @throws GuzzleException
      */
     public function create(
         string $name,
         string $email,
-        string  $tags,
-        string $callbackUrl
+        array $tags,
+        string $callbackUrl,
+        string $codeNamePrefix = null
     ): Response
     {
-        return $this->post($this->getModeUrl() . 'zainbox/create/request', [
+        $payload = [
             'name' => $name,
             'email'=> $email,
             'tags' => $tags,
-            'callbackUrl' => $callbackUrl
+            'callbackUrl' => $callbackUrl,
+            'codeNamePrefix' => $codeNamePrefix
+        ];
+
+        if($codeNamePrefix != null) {
+            $payload['codeNamePrefix'] = $codeNamePrefix;
+        }
+        return $this->post($this->getModeUrl() . 'zainbox/create/request', [
+            $payload
         ]);
     }
 
     /**
      * @param string $name
-     * @param string $email
+     * @param string $emailNotification
      * @param array $tags
      * @param string $callbackUrl
+     * @param string $zainboxCode
      * @return Response
      * @throws GuzzleException
      */
     public function update(
         string $name,
         string $emailNotification,
-        string $tags,
+        array  $tags,
         string $callbackUrl,
         string $zainboxCode
     ): Response
     {
-        return $this->patch($this->getModeUrl() . 'zainbox/update', [
+        $payload = [
             'name' => $name,
             'emailNotification'=> $emailNotification,
             'tags' => $tags,
             'codeName' => $zainboxCode,
             'callbackUrl' => $callbackUrl
-        ]);
+        ];
+
+
+        return $this->patch($this->getModeUrl() . 'zainbox/update', $payload);
     }
 
     /**
@@ -208,19 +222,16 @@ class ZainBox
      * for both transfer and deposit transactions
      *
      * @param string $zainboxCode
-     * @param string|null $dateFrom
-     * @param string|null $dateTo
+     * @param string $dateFrom
+     * @param string $dateTo
      * @return Response
      * @throws GuzzleException
      *
      * @link https://zainpay.ng/developers/api-endpoints?section=total-payment-by-zainbox
      */
-    public function totalPaymentCollected(string $zainboxCode, ?string $dateFrom = null, ?string $dateTo = null): Response
+    public function totalPaymentCollectedByZainbox(string $zainboxCode, string $dateFrom , string $dateTo): Response
     {
-        $period = "";
-        if($dateFrom != null && $dateTo != null){
-            $period = "?dateFrom=$dateFrom&dateTo=$dateTo";
-        }
+        $period = "?dateFrom=$dateFrom&dateTo=$dateTo";
         return $this->get($this->getModeUrl() . 'zainbox/transfer/deposit/summary/' . $zainboxCode . $period);
     }
 
@@ -228,19 +239,16 @@ class ZainBox
      * Get the sum of total amount collected by all virtual accounts for a merchant in a particular period,
      * for both transfer and deposit transactions
      *
-     * @param string|null $dateFrom
-     * @param string|null $dateTo
+     * @param string $dateFrom
+     * @param string $dateTo
      * @return Response
      * @throws GuzzleException
      *
      * @link https://zainpay.ng/developers/api-endpoints?section=total-payment-by-merchant
      */
-    public function totalPaymentCollectedByMerchant(?string $dateFrom = null, ?string $dateTo = null): Response
+    public function totalPaymentCollectedByMerchant(string $dateFrom, string $dateTo): Response
     {
-        $period = "";
-        if($dateFrom != null && $dateTo != null){
-            $period = "?dateFrom=$dateFrom&dateTo=$dateTo";
-        }
+        $period = "?dateFrom=$dateFrom&dateTo=$dateTo";
         return $this->get($this->getModeUrl() . 'zainbox/transfer/deposit/summary'.$period);
     }
 

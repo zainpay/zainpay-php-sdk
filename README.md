@@ -1,9 +1,15 @@
 # Zainpay PHP SDK
 
-## Installation
+## Installation Via Composer
 
 ```
 composer require zainpay/sdk
+```
+
+## Installation Via download
+Download a release version from the [releases page](https://github.com/zainpay/zainpay-php-sdk). Extract, then:
+```
+ require 'path/to/src/autoload.php';
 ```
 
 # Usage
@@ -49,7 +55,7 @@ ZainBox::instantiate()
 * [Response->getDescription()](src/Response.php)
 * [Response->getResponse()](src/Response.php)
 
-How to use them:
+How to use Responses:
 ```php
 use Zainpay\SDK\Engine;
 use Zainpay\SDK\ZainBox;
@@ -67,8 +73,8 @@ var_dump($response->getData());
 
 ### ZainBox
 
-Create a zainbox. <br/>
-A zainbox is a virtual bucket that allows a merchant to create unlimited multiple virtual accounts.
+Create a zainbox. <br/> 
+A zainbox is a virtual bucket that allows a merchant to create unlimited multiple virtual accounts. 
 
 ```php
 use Zainpay\SDK\Engine;
@@ -92,7 +98,7 @@ if ($response->hasSucceeded()){
 ```
 
 ### List ZainBoxes
-
+Get all your created zainboxes
 ```php
 use Zainpay\SDK\Engine;
 use Zainpay\SDK\ZainBox;
@@ -108,6 +114,7 @@ if ($response->hasSucceeded()){
     var_dump($response->getData());
 }
 ```
+
 
 ### Transaction List
 
@@ -126,3 +133,96 @@ if ($response->hasSucceeded()){
     var_dump($response->getData());
 }
 ```
+
+## Virtual Account
+### Create Virtual Account
+Create a virtual account. Map a virtual account to a zainbox. A zainbox can hold multiple virtual accounts.
+```php
+use Zainpay\SDK\Engine;
+use Zainpay\SDK\VirtualAccount;
+
+require __DIR__ . '/vendor/autoload.php';
+
+Engine::setMode(Engine::MODE_DEVELOPMENT);
+Engine::setToken('<YOUR-ZAINPAY-TOKEN>');
+$response = VirtualAccount::instantiate()->createVirtualAccount(
+    '<FirstName>'
+    '<SurName>'
+    '<Email>'
+    '<Dob>'
+    '<Gender>'
+    '<Address>'
+    '<Title>'
+    '<State>'
+    '<ZainboxCode>'
+);
+
+if ($response->hasSucceeded()){
+    echo "Virtual Account Created";
+}
+```
+### Get All Virtual Account
+Get all virtual accounts linked to a zainbox
+```php
+use Zainpay\SDK\Engine;
+use Zainpay\SDK\VirtualAccount;
+
+require __DIR__ . '/vendor/autoload.php';
+
+Engine::setMode(Engine::MODE_DEVELOPMENT);
+Engine::setToken('<YOUR-ZAINPAY-TOKEN>');
+$response = \Zainpay\SDK\ZainBox::instantiate()->listVirtualAccounts(
+'<ZainBoxCode>'
+);
+if ($response->hasSucceeded()){
+    var_dump($response->getData());
+}
+```
+
+### Card Initialization
+Card payment Initialization. <br/>
+To initialize Zainpay Card Payment, Amount should be in Kobo.
+The data field of the response returned is a url which you can redirect your users to visit and make the payment.
+
+```php
+use Zainpay\SDK\Engine;
+use Zainpay\SDK\Card;
+
+require __DIR__ . '/vendor/autoload.php';
+
+Engine::setMode(Engine::MODE_DEVELOPMENT);
+Engine::setToken('<YOUR-ZAINPAY-TOKEN>');
+
+$response = Card::instantiate()->initializeCardPayment(
+    '<Amount>',
+    '<Transaction-Reference>',
+    '<Email-Address>',
+    '<Mobile-Number>',
+    '<Zainbox-Code>',
+    '<Callback-Url>',
+);
+
+if ($response->hasSucceeded()){
+    var_dump($response->getData());
+}
+```
+### Card Payment Verification
+```php
+use Zainpay\SDK\Engine;
+use Zainpay\SDK\Card;
+
+require __DIR__ . '/vendor/autoload.php';
+
+Engine::setMode(Engine::MODE_DEVELOPMENT);
+Engine::setToken('<YOUR-ZAINPAY-TOKEN>');
+
+$response = Card::instantiate()->verifyCardPayment(
+    '<Transaction-Reference>'
+);
+
+if ($response->hasSucceeded()){
+    var_dump($response->getData());
+}
+```
+
+For detailed documentation visit the [ZainPay Developer Documentation Page](https://zainpay.ng/developers/). 

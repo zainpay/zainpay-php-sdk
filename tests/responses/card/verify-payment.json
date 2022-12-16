@@ -1,0 +1,22 @@
+{
+  "code": "00",
+  "data": {
+    "amount": {
+      "amount": 100
+    },
+    "bankName": "",
+    "beneficiaryAccountName": "4427505285",
+    "beneficiaryAccountNumber": "4427505285",
+    "narration": "Approved by Financial Institution",
+    "paymentDate": "2022-08-09T15:56:01.686777",
+    "paymentRef": "Z9I8XkNRta1hq2dlmMzlhwQ9F60dLw",
+    "sender": "Zainpay Card",
+    "senderName": "Zainpay Card",
+    "txnDate": "2022-08-09T15:56:01.685982",
+    "txnRef": "Q6166237864",
+    "txnType": "deposit",
+    "zainboxCode": "THbfnDvK5o"
+  },
+  "description": "successful",
+  "status": "200 OK"
+}

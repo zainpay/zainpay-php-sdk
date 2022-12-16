@@ -16,7 +16,9 @@ class VirtualAccount extends \Zainpay\SDK\VirtualAccount
         );
     }
 
-    public function transactionList(int $accountNumber): Response
+    public function transactionList(
+        string $accountNumber
+    ): Response
     {
         return Mockery::mockResponseFromFile(
             'GET',
@@ -25,7 +27,7 @@ class VirtualAccount extends \Zainpay\SDK\VirtualAccount
         );
     }
 
-    public function verifyTransaction(string $tnxId): Response
+    public function verifyTransfer(string $tnxId): Response
     {
         return Mockery::mockResponseFromFile(
             'GET',
@@ -34,7 +36,11 @@ class VirtualAccount extends \Zainpay\SDK\VirtualAccount
         );
     }
 
-    public function changeVirtualAccountStatus(string $zainboxCode, int $accountNumber, bool $status): Response
+    public function changeVirtualAccountStatus(
+        string $zainboxCode,
+        string $accountNumber,
+        bool $status
+    ): Response
     {
         return Mockery::mockResponseFromFile(
             'GET',
@@ -43,7 +49,9 @@ class VirtualAccount extends \Zainpay\SDK\VirtualAccount
         );
     }
 
-    public function balance(int $accountNumber): Response
+    public function balance(
+        string $accountNumber
+    ): Response
     {
         return Mockery::mockResponseFromFile(
             'GET',

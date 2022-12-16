@@ -26,7 +26,7 @@ class Bank
      * Use the bankCode acquired from the get bank list to validate a bank account number.
      *
      * @param string $bankCode
-     * @param int $accountNumber
+     * @param string $accountNumber
      * @return Response
      * @throws GuzzleException
      * @link https://zainpay.ng/developers/api-endpoints?section=name-enquiry

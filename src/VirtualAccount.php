@@ -44,7 +44,7 @@ class VirtualAccount
      *
      * @link https://zainpay.ng/developers/api-endpoints?section=transaction-verification
      */
-    public function verifyTransaction(string $tnxId): Response
+    public function verifyTransfer(string $tnxId): Response
     {
         return $this->get($this->getModeUrl() . 'virtual-account/wallet/transaction/verify/' . $tnxId);
     }
@@ -128,5 +128,15 @@ class VirtualAccount
             'accountNumber' => $accountNumber,
             'status' => $status
         ]);
+    }
+
+    /**
+     * @throws GuzzleException
+     */
+    public function allVirtualAccountsBalanceOfZainBox(
+        String $zainboxCode
+    ): Response
+    {
+        return $this->get($this->getModeUrl(). '/zainbox/accounts/balance/'. $zainboxCode);
     }
 }

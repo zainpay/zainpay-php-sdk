@@ -6,6 +6,13 @@
       "dateFrom": "2022-02",
       "dateTo": "2022-03",
       "total": "50000",
+      "transactionType": "deposit"
+    },
+    {
+      "count": 2,
+      "dateFrom": "2022-02",
+      "dateTo": "2022-03",
+      "total": "50000",
       "transactionType": "transfer"
     }
   ],
