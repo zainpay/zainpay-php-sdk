@@ -21,7 +21,7 @@ class Card
         String $callBackUrl
     ): Response
     {
-        return $this->post($this->getModeUrl(). '/zainbox/card/initialize/payment',[
+        return $this->post($this->getModeUrl(). 'zainbox/card/initialize/payment',[
             'amount' => $amount,
             'txnRef' => $txnRef,
             'emailAddress' => $emailAddress,
@@ -38,7 +38,7 @@ class Card
         String $transactionReference
     ): Response
     {
-        return $this->get($this->getModeUrl(). '/virtual-account/wallet/deposit/verify/'. $transactionReference);
+        return $this->get($this->getModeUrl(). 'virtual-account/wallet/deposit/verify/'. $transactionReference);
     }
 
 

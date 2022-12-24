@@ -3,7 +3,7 @@
 ## Installation Via Composer
 
 ```
-composer require zainpay/sdk
+composer require zainpay/sdk:dev-main
 ```
 
 ## Installation Via download
