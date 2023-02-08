@@ -7,7 +7,7 @@ use Zainpay\SDK\Tests\Mockery;
 
 class VirtualAccount extends \Zainpay\SDK\VirtualAccount
 {
-    public function createVirtualAccount(string $firstName, string $surname, string $email, string $dob, string $gender, string $address, string $title, string $state, string $zainboxCode): Response
+    public function createVirtualAccount(string $firstName, string $surname, string $email, string $mobile, string $dob, string $gender, string $address, string $title, string $state, string $zainboxCode): Response
     {
         return Mockery::mockResponseFromFile(
             'GET',

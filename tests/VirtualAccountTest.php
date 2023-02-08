@@ -69,6 +69,7 @@ class VirtualAccountTest extends TestCase
             $this->faker->name(),
             $this->faker->name(),
             $this->faker->email(),
+            '08099999999',
             $this->faker->date(),
             ['Male', 'Female'][rand(0, 1)],
             $this->faker->address(),
