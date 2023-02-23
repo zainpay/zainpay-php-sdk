@@ -18,7 +18,7 @@ class Response
 
     public function hasSucceeded(): bool
     {
-        return ('200' == $this->getCode()|| '00' == $this->getCode());
+        return ('200' == $this->getCode() || '00' == $this->getCode() || '21' == $this->getCode());
     }
 
     public function hasFailed(): bool

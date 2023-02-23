@@ -34,7 +34,9 @@ class Bank extends \Zainpay\SDK\Bank
         string $amount,
         string $sourceAccountNumber,
         string $sourceBankCode,
-        string $zainBoxCode, string $txnRef, string $narration): Response
+        string $zainboxCode, 
+        string $txnRef, 
+        string $narration): Response
     {
         return Mockery::mockResponseFromFile(
             'GET',
