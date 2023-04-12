@@ -56,7 +56,7 @@ class Bank
      * @param string $amount
      * @param string $sourceAccountNumber
      * @param string $sourceBankCode
-     * @param string $zainBoxCode
+     * @param string $zainboxCode
      * @param string $txnRef
      * @param string $narration
      * @return Response
@@ -69,7 +69,7 @@ class Bank
         string $amount,
         string $sourceAccountNumber,
         string $sourceBankCode,
-        string $zainBoxCode,
+        string $zainboxCode,
         string $txnRef,
         string $narration
     ): Response
@@ -80,7 +80,7 @@ class Bank
             'amount' => $amount,
             'sourceAccountNumber' => $sourceAccountNumber,
             'sourceBankCode' => $sourceBankCode,
-            'zainBoxCode' => $zainBoxCode,
+            'zainboxCode' => $zainboxCode,
             'txnRef' => $txnRef,
             'narration' => $narration
         ]);
