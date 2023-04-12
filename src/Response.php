@@ -41,7 +41,7 @@ class Response
         return $this->decodedResponse['description'];
     }
 
-    public function getData(): ?array
+    public function getData()
     {
         return $this->decodedResponse['data'] ?? null;
     }
