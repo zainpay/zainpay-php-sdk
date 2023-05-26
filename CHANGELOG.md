@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.4] - 2023-05-25
+## Changes
+- added v2 endpoint for deposit verification
+
 ## [1.0.3] - 2023-04-12
 ## Changes
 - changed getData() return type from array to any on Response class
