@@ -88,9 +88,9 @@ class ZainBox
      *
      * @link https://zainpay.ng/developers/api-endpoints?section=merchant-transactions
      */
-    public function merchantTransactionList(): Response
+    public function merchantTransactionList($count = 20): Response
     {
-        return $this->get($this->getModeUrl() . 'zainbox/transactions');
+        return $this->get($this->getModeUrl() . 'zainbox/transactions?count='.$count);
     }
 
     /**
@@ -102,9 +102,9 @@ class ZainBox
      *
      * @link https://zainpay.ng/developers/api-endpoints?section=zainbox-transactions-history
      */
-    public function transactionList(string $zainboxCode): Response
+    public function transactionList(string $zainboxCode, int $count = 20): Response
     {
-        return $this->get($this->getModeUrl() . 'zainbox/transactions/' . $zainboxCode);
+        return $this->get($this->getModeUrl() . 'zainbox/transactions/' . $zainboxCode. "/". $count);
     }
 
     /**
@@ -117,9 +117,9 @@ class ZainBox
      *
      * @link https://zainpay.ng/developers/api-endpoints?section=zainbox-transactions-history
      */
-    public function transactionHistory(string $zainboxCode): Response
+    public function transactionHistory(string $zainboxCode, int $count = 20): Response
     {
-        return $this->transactionList($zainboxCode);
+        return $this->transactionList($zainboxCode, $count);
     }
 
     /**
@@ -131,9 +131,9 @@ class ZainBox
      *
      * @link https://zainpay.ng/developers/api-endpoints?section=zainbox-transactions-history
      */
-    public function virtualAccountTransactionList(string $virtualAccount): Response
+    public function virtualAccountTransactionList(string $virtualAccount, $count = 20): Response
     {
-        return $this->get($this->getModeUrl() . 'virtual-account/wallet/transactions/' . $virtualAccount);
+        return $this->get($this->getModeUrl() . 'virtual-account/wallet/transactions/' . $virtualAccount. "/". $count);
     }
 
     /**
