@@ -30,9 +30,9 @@ class VirtualAccount
      * @throws GuzzleException
      * @link https://zainpay.ng/developers/api-endpoints?section=virtual-account-transactions
      */
-    public function transactionList(string $accountNumber): Response
+    public function transactionList(string $accountNumber, int $count = 20): Response
     {
-        return $this->get($this->getModeUrl() . 'virtual-account/wallet/transactions/' . $accountNumber);
+        return $this->get($this->getModeUrl() . 'virtual-account/wallet/transactions/' . $accountNumber . "/". $count);
     }
 
     /**

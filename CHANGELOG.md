@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.5] - 2023-05-31
+## Changes
+- added optional parameter of setting count to endpoints for getting transactions list
+
 ## [1.0.4] - 2023-05-25
 ## Changes
 - added v2 endpoint for deposit verification
