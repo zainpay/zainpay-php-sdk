@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.6] - 2023-06-7
+## Changes
+- updated zainbox creation and updation payload to include allowAutoInternalTransfer
+
 ## [1.0.5] - 2023-05-31
 ## Changes
 - added optional parameter of setting count to endpoints for getting transactions list

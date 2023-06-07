@@ -12,61 +12,62 @@ class ZainBox
     /**
      * @param string $name
      * @param string $email
-     * @param array $tags
+     * @param array|null $tags
      * @param string $callbackUrl
      * @param string|null $codeNamePrefix
+     * @param bool|null $allowAutoInternalTransfer
      * @return Response
      * @throws GuzzleException
      */
     public function create(
         string $name,
         string $email,
-        array $tags,
+        ?array $tags,
         string $callbackUrl,
-        string $codeNamePrefix = null
+        ?string $codeNamePrefix,
+        ?bool $allowAutoInternalTransfer
     ): Response
     {
+
         $payload = [
             'name' => $name,
             'email'=> $email,
-            'tags' => $tags,
-            'callbackUrl' => $callbackUrl,
-            'codeNamePrefix' => $codeNamePrefix
+            'callbackUrl' => $callbackUrl
         ];
 
-        if($codeNamePrefix != null) {
-            $payload['codeNamePrefix'] = $codeNamePrefix;
-        }
+        (isset($tags)) ? $payload['tags'] = implode(",", $tags) : null;
+        (isset($codeNamePrefix)) ? $payload['codeNamePrefix'] = $codeNamePrefix : null;
+        (isset($allowAutoInternalTransfer)) ? $payload['allowAutoInternalTransfer'] = $allowAutoInternalTransfer : null;
+
         return $this->post($this->getModeUrl() . 'zainbox/create/request', [
             $payload
         ]);
     }
 
     /**
-     * @param string $name
-     * @param string $emailNotification
-     * @param array $tags
-     * @param string $callbackUrl
+     * @param string|null $name
+     * @param string|null $emailNotification
+     * @param array|null $tags
+     * @param string|null $callbackUrl
+     *  @param bool|null $allowAutoInternalTransfer
      * @param string $zainboxCode
      * @return Response
      * @throws GuzzleException
      */
     public function update(
         string $name,
-        string $emailNotification,
-        array  $tags,
-        string $callbackUrl,
+        ?string $emailNotification,
+        ?array  $tags,
+        ?string $callbackUrl,
+        ?bool $allowAutoInternalTransfer,
         string $zainboxCode
     ): Response
     {
-        $payload = [
-            'name' => $name,
-            'emailNotification'=> $emailNotification,
-            'tags' => $tags,
-            'codeName' => $zainboxCode,
-            'callbackUrl' => $callbackUrl
-        ];
-
+        $payload = ['codeName' => $zainboxCode, 'name' => $name];
+        (isset($tags)) ? $payload['tags'] = implode(",", $tags) : null;
+        (isset($callbackUrl)) ? $payload['callbackUrl'] = $callbackUrl : null;
+        (isset($emailNotification)) ? $payload['emailNotification'] = $emailNotification : null;
+        (isset($allowAutoInternalTransfer)) ? $payload['allowAutoInternalTransfer'] = $allowAutoInternalTransfer : null;
 
         return $this->patch($this->getModeUrl() . 'zainbox/update', $payload);
     }
