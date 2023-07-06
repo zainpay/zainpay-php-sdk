@@ -6,7 +6,7 @@ class Engine
 {
     protected static string $token = '';
     protected static array $urls = [
-        Engine::MODE_DEVELOPMENT => 'http://localhost:8080/',//'https://sandbox.zainpay.ng/',
+        Engine::MODE_DEVELOPMENT => 'https://sandbox.zainpay.ng/',
         Engine::MODE_PRODUCTION => 'https://api.zainpay.ng/',
     ];
 
