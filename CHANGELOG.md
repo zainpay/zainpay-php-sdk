@@ -1,6 +1,10 @@
 # Changelog
 
-## [1.0.6] - 2023-06-7
+## [1.0.7] - 2023-07-06
+## Changes
+- implemented filtering of transactions on txn endpoints
+
+## [1.0.6] - 2023-06-07
 ## Changes
 - updated zainbox creation and updation payload to include allowAutoInternalTransfer
 
