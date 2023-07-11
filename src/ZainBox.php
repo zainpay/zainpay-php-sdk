@@ -4,69 +4,78 @@ namespace Zainpay\SDK;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Zainpay\SDK\Lib\RequestTrait;
-
+use Zainpay\SDK\Util\FilterUtil;
 class ZainBox
 {
     use RequestTrait;
 
+    // name: String,
+    // callbackUrl: String,
+    // emailNotification: Option[String],
+    // description: Option[String],
+    // tags: Option[String],
+    // codeNamePrefix: Option[String],
+    // allowAutoInternalTransfer: Option[Boolean])
+
     /**
      * @param string $name
-     * @param string $email
-     * @param array $tags
+     * @param string $emailNotification
+     * @param array|null $tags
      * @param string $callbackUrl
      * @param string|null $codeNamePrefix
+     * @param bool|null $allowAutoInternalTransfer
      * @return Response
      * @throws GuzzleException
      */
     public function create(
         string $name,
-        string $email,
-        array $tags,
+        string $emailNotification,
+        ?array $tags,
         string $callbackUrl,
-        string $codeNamePrefix = null
-    ): Response
-    {
+        ?string $description,
+        ?string $codeNamePrefix,
+        ?bool $allowAutoInternalTransfer
+    ): Response {
+
         $payload = [
             'name' => $name,
-            'email'=> $email,
-            'tags' => $tags,
-            'callbackUrl' => $callbackUrl,
-            'codeNamePrefix' => $codeNamePrefix
+            'emailNotification' => $emailNotification,
+            'callbackUrl' => $callbackUrl
         ];
 
-        if($codeNamePrefix != null) {
-            $payload['codeNamePrefix'] = $codeNamePrefix;
-        }
+        (isset($tags)) ? $payload['tags'] = implode(",", $tags) : null;
+        (isset($description)) ? $payload['description'] = $description : null;
+        (isset($codeNamePrefix)) ? $payload['codeNamePrefix'] = $codeNamePrefix : null;
+        (isset($allowAutoInternalTransfer)) ? $payload['allowAutoInternalTransfer'] = $allowAutoInternalTransfer : null;
+
         return $this->post($this->getModeUrl() . 'zainbox/create/request', [
             $payload
         ]);
     }
 
     /**
-     * @param string $name
-     * @param string $emailNotification
-     * @param array $tags
-     * @param string $callbackUrl
+     * @param string|null $name
+     * @param string|null $emailNotification
+     * @param array|null $tags
+     * @param string|null $callbackUrl
+     *  @param bool|null $allowAutoInternalTransfer
      * @param string $zainboxCode
      * @return Response
      * @throws GuzzleException
      */
     public function update(
         string $name,
-        string $emailNotification,
-        array  $tags,
-        string $callbackUrl,
+        ?string $emailNotification,
+        ?array  $tags,
+        ?string $callbackUrl,
+        ?bool $allowAutoInternalTransfer,
         string $zainboxCode
-    ): Response
-    {
-        $payload = [
-            'name' => $name,
-            'emailNotification'=> $emailNotification,
-            'tags' => $tags,
-            'codeName' => $zainboxCode,
-            'callbackUrl' => $callbackUrl
-        ];
-
+    ): Response {
+        $payload = ['codeName' => $zainboxCode, 'name' => $name];
+        (isset($tags)) ? $payload['tags'] = implode(",", $tags) : null;
+        (isset($callbackUrl)) ? $payload['callbackUrl'] = $callbackUrl : null;
+        (isset($emailNotification)) ? $payload['emailNotification'] = $emailNotification : null;
+        (isset($allowAutoInternalTransfer)) ? $payload['allowAutoInternalTransfer'] = $allowAutoInternalTransfer : null;
 
         return $this->patch($this->getModeUrl() . 'zainbox/update', $payload);
     }
@@ -88,9 +97,9 @@ class ZainBox
      *
      * @link https://zainpay.ng/developers/api-endpoints?section=merchant-transactions
      */
-    public function merchantTransactionList($count = 20): Response
+    public function merchantTransactionList($count = 20, ?string $accountNumber, ?string $txnType,  ?string $dateFrom,  ?string $dateTo): Response
     {
-        return $this->get($this->getModeUrl() . 'zainbox/transactions?count='.$count);
+        return $this->get($this->getModeUrl() . 'zainbox/transactions', array_merge(["count" => $count], FilterUtil::ConstructFilterParams($accountNumber, $txnType, $dateFrom, $dateTo)));
     }
 
     /**
@@ -102,9 +111,9 @@ class ZainBox
      *
      * @link https://zainpay.ng/developers/api-endpoints?section=zainbox-transactions-history
      */
-    public function transactionList(string $zainboxCode, int $count = 20): Response
+    public function transactionList(string $zainboxCode, int $count = 20, ?string $accountNumber, ?string $txnType,  ?string $dateFrom,  ?string $dateTo): Response
     {
-        return $this->get($this->getModeUrl() . 'zainbox/transactions/' . $zainboxCode. "/". $count);
+        return $this->get($this->getModeUrl() . 'zainbox/transactions/' . $zainboxCode . "/" . $count, FilterUtil::ConstructFilterParams($accountNumber, $txnType, $dateFrom, $dateTo));
     }
 
     /**
@@ -117,9 +126,9 @@ class ZainBox
      *
      * @link https://zainpay.ng/developers/api-endpoints?section=zainbox-transactions-history
      */
-    public function transactionHistory(string $zainboxCode, int $count = 20): Response
+    public function transactionHistory(string $zainboxCode, int $count = 20, ?string $accountNumber, ?string $txnType,  ?string $dateFrom,  ?string $dateTo): Response
     {
-        return $this->transactionList($zainboxCode, $count);
+        return $this->transactionList($zainboxCode, $count, $accountNumber, $txnType, $dateFrom, $dateTo);
     }
 
     /**
@@ -131,9 +140,9 @@ class ZainBox
      *
      * @link https://zainpay.ng/developers/api-endpoints?section=zainbox-transactions-history
      */
-    public function virtualAccountTransactionList(string $virtualAccount, $count = 20): Response
+    public function virtualAccountTransactionList(string $virtualAccount, $count = 20, ?string $txnType,  ?string $dateFrom,  ?string $dateTo): Response
     {
-        return $this->get($this->getModeUrl() . 'virtual-account/wallet/transactions/' . $virtualAccount. "/". $count);
+        return $this->get($this->getModeUrl() . 'virtual-account/wallet/transactions/' . $virtualAccount . "/" . $count, FilterUtil::ConstructFilterParams(null, $txnType, $dateFrom, $dateTo));
     }
 
     /**
@@ -177,8 +186,7 @@ class ZainBox
         string $schedulePeriod,
         array  $settlementAccountList,
         bool   $status
-    ): Response
-    {
+    ): Response {
         return $this->post($this->getModeUrl() . 'zainbox/settlement', [
             'name' => $name,
             'zainboxCode' => $zainboxCode,
@@ -229,10 +237,9 @@ class ZainBox
      *
      * @link https://zainpay.ng/developers/api-endpoints?section=total-payment-by-zainbox
      */
-    public function totalPaymentCollectedByZainbox(string $zainboxCode, string $dateFrom , string $dateTo): Response
+    public function totalPaymentCollectedByZainbox(string $zainboxCode, ?string $dateFrom, ?string $dateTo): Response
     {
-        $period = "?dateFrom=$dateFrom&dateTo=$dateTo";
-        return $this->get($this->getModeUrl() . 'zainbox/transfer/deposit/summary/' . $zainboxCode . $period);
+        return $this->get($this->getModeUrl() . 'zainbox/transfer/deposit/summary/' . $zainboxCode, self::constructFilterParams(null, null, $dateFrom, $dateTo));
     }
 
     /**
@@ -246,10 +253,9 @@ class ZainBox
      *
      * @link https://zainpay.ng/developers/api-endpoints?section=total-payment-by-merchant
      */
-    public function totalPaymentCollectedByMerchant(string $dateFrom, string $dateTo): Response
+    public function totalPaymentCollectedByMerchant(?string $dateFrom, ?string $dateTo): Response
     {
-        $period = "?dateFrom=$dateFrom&dateTo=$dateTo";
-        return $this->get($this->getModeUrl() . 'zainbox/transfer/deposit/summary'.$period);
+        return $this->get($this->getModeUrl() . 'zainbox/transfer/deposit/summary', FilterUtil::ConstructFilterParams(null, null, $dateFrom, $dateTo));
     }
 
 
@@ -263,8 +269,8 @@ class ZainBox
     {
         return [
             "accountNumber" => $accountNumber,
-            "bankCode" => $bankCode,
-            "percentage" => strval($percentage),
+            "bankCode"      => $bankCode,
+            "percentage"    => strval($percentage),
         ];
     }
 }
