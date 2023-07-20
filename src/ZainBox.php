@@ -97,9 +97,9 @@ class ZainBox
      *
      * @link https://zainpay.ng/developers/api-endpoints?section=merchant-transactions
      */
-    public function merchantTransactionList($count = 20, ?string $accountNumber, ?string $txnType,  ?string $dateFrom,  ?string $dateTo): Response
+    public function merchantTransactionList($count = 20, ?string $accountNumber, ?string $txnType, ?string $paymentChannel, ?string $dateFrom,  ?string $dateTo): Response
     {
-        return $this->get($this->getModeUrl() . 'zainbox/transactions', array_merge(["count" => $count], FilterUtil::ConstructFilterParams($accountNumber, $txnType, $dateFrom, $dateTo)));
+        return $this->get($this->getModeUrl() . 'zainbox/transactions', array_merge(["count" => $count], FilterUtil::ConstructFilterParams($accountNumber, $txnType, $paymentChannel, $dateFrom, $dateTo)));
     }
 
     /**
@@ -111,9 +111,9 @@ class ZainBox
      *
      * @link https://zainpay.ng/developers/api-endpoints?section=zainbox-transactions-history
      */
-    public function transactionList(string $zainboxCode, int $count = 20, ?string $accountNumber, ?string $txnType,  ?string $dateFrom,  ?string $dateTo): Response
+    public function transactionList(string $zainboxCode, int $count = 20, ?string $accountNumber, ?string $txnType, ?string $paymentChannel, ?string $dateFrom,  ?string $dateTo): Response
     {
-        return $this->get($this->getModeUrl() . 'zainbox/transactions/' . $zainboxCode . "/" . $count, FilterUtil::ConstructFilterParams($accountNumber, $txnType, $dateFrom, $dateTo));
+        return $this->get($this->getModeUrl() . 'zainbox/transactions/' . $zainboxCode . "/" . $count, FilterUtil::ConstructFilterParams($accountNumber, $txnType, $paymentChannel, $dateFrom, $dateTo));
     }
 
     /**
@@ -126,9 +126,9 @@ class ZainBox
      *
      * @link https://zainpay.ng/developers/api-endpoints?section=zainbox-transactions-history
      */
-    public function transactionHistory(string $zainboxCode, int $count = 20, ?string $accountNumber, ?string $txnType,  ?string $dateFrom,  ?string $dateTo): Response
+    public function transactionHistory(string $zainboxCode, int $count = 20, ?string $accountNumber, ?string $txnType,  ?string $paymentChannel, ?string $dateFrom,  ?string $dateTo): Response
     {
-        return $this->transactionList($zainboxCode, $count, $accountNumber, $txnType, $dateFrom, $dateTo);
+        return $this->transactionList($zainboxCode, $count, $accountNumber, $txnType, $paymentChannel, $dateFrom, $dateTo);
     }
 
     /**
@@ -140,9 +140,9 @@ class ZainBox
      *
      * @link https://zainpay.ng/developers/api-endpoints?section=zainbox-transactions-history
      */
-    public function virtualAccountTransactionList(string $virtualAccount, $count = 20, ?string $txnType,  ?string $dateFrom,  ?string $dateTo): Response
+    public function virtualAccountTransactionList(string $virtualAccount, $count = 20, ?string $txnType,  ?string $paymentChannel, ?string $dateFrom, ?string $dateTo): Response
     {
-        return $this->get($this->getModeUrl() . 'virtual-account/wallet/transactions/' . $virtualAccount . "/" . $count, FilterUtil::ConstructFilterParams(null, $txnType, $dateFrom, $dateTo));
+        return $this->get($this->getModeUrl() . 'virtual-account/wallet/transactions/' . $virtualAccount . "/" . $count, FilterUtil::ConstructFilterParams(null, $txnType, $paymentChannel, $dateFrom, $dateTo));
     }
 
     /**
@@ -239,7 +239,7 @@ class ZainBox
      */
     public function totalPaymentCollectedByZainbox(string $zainboxCode, ?string $dateFrom, ?string $dateTo): Response
     {
-        return $this->get($this->getModeUrl() . 'zainbox/transfer/deposit/summary/' . $zainboxCode, FilterUtil::constructFilterParams(null, null, $dateFrom, $dateTo));
+        return $this->get($this->getModeUrl() . 'zainbox/transfer/deposit/summary/' . $zainboxCode, FilterUtil::constructFilterParams(null, null, null, $dateFrom, $dateTo));
     }
 
     /**
@@ -255,7 +255,7 @@ class ZainBox
      */
     public function totalPaymentCollectedByMerchant(?string $dateFrom, ?string $dateTo): Response
     {
-        return $this->get($this->getModeUrl() . 'zainbox/transfer/deposit/summary', FilterUtil::ConstructFilterParams(null, null, $dateFrom, $dateTo));
+        return $this->get($this->getModeUrl() . 'zainbox/transfer/deposit/summary', FilterUtil::ConstructFilterParams(null, null, null, $dateFrom, $dateTo));
     }
 
 

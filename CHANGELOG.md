@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.8] - 2023-07-20
+## Changes
+- added payment channel to the filtering
+
 ## [1.0.7] - 2023-07-06
 ## Changes
 - implemented filtering of transactions on txn endpoints
