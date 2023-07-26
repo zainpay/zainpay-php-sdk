@@ -31,9 +31,9 @@ class VirtualAccount
      * @throws GuzzleException
      * @link https://zainpay.ng/developers/api-endpoints?section=virtual-account-transactions
      */
-    public function transactionList(string $accountNumber, int $count = 20, ?string $txnType,  ?string $dateFrom,  ?string $dateTo): Response
+    public function transactionList(string $accountNumber, int $count = 20, ?string $txnType, ?string $paymentChannel, ?string $dateFrom,  ?string $dateTo): Response
     {
-        return $this->get($this->getModeUrl() . 'virtual-account/wallet/transactions/' . $accountNumber . "/". $count, FilterUtil::ConstructFilterParams(null, $txnType, $dateFrom, $dateTo) );
+        return $this->get($this->getModeUrl() . 'virtual-account/wallet/transactions/' . $accountNumber . "/". $count, FilterUtil::ConstructFilterParams(null, $txnType, $paymentChannel,$dateFrom, $dateTo) );
     }
 
     /**
