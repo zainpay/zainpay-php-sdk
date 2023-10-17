@@ -33,7 +33,7 @@ class VirtualAccount
      */
     public function transactionList(string $accountNumber, int $count = 20, ?string $txnType, ?string $paymentChannel, ?string $dateFrom,  ?string $dateTo): Response
     {
-        return $this->get($this->getModeUrl() . 'virtual-account/wallet/transactions/' . $accountNumber . "/". $count, FilterUtil::ConstructFilterParams(null, $txnType, $paymentChannel,$dateFrom, $dateTo) );
+        return $this->get($this->getModeUrl() . 'virtual-account/wallet/transactions/' . $accountNumber . "/" . $count, FilterUtil::ConstructFilterParams(null, $txnType, $paymentChannel, $dateFrom, $dateTo));
     }
 
     /**
@@ -97,8 +97,7 @@ class VirtualAccount
         string $title,
         string $state,
         string $zainboxCode
-    ): Response
-    {
+    ): Response {
         return $this->post($this->getModeUrl() . 'virtual-account/create/request', [
             'bankType' => "wemaBank",
             'firstName' => $firstName,
@@ -129,8 +128,7 @@ class VirtualAccount
         string $zainboxCode,
         string $accountNumber,
         bool   $status
-    ): Response
-    {
+    ): Response {
         return $this->patch($this->getModeUrl() . '/virtual-account/change/account/status', [
             'zainboxCode' => $zainboxCode,
             'accountNumber' => $accountNumber,
@@ -143,8 +141,28 @@ class VirtualAccount
      */
     public function allVirtualAccountsBalanceOfZainBox(
         String $zainboxCode
-    ): Response
-    {
-        return $this->get($this->getModeUrl(). '/zainbox/accounts/balance/'. $zainboxCode);
+    ): Response {
+        return $this->get($this->getModeUrl() . '/zainbox/accounts/balance/' . $zainboxCode);
+    }
+
+    /**
+     * Reconcile a hanging bank deposit
+     *
+     * @param string $verificationType - Anyone of `depositAccountNumber` (if you want to verify by virtual account number) or `depositReferenceNumber` (if you want to verify by using session id)
+     * @param string $verificationValue - The virtual account number or the session id, according to the value of the `verificationType` passed.
+     * @return Response
+     * @throws GuzzleException
+     *
+     * @link https://zainpay.ng/developers/api-endpoints?section=reconcile-bank-deposit
+     */
+    public function reconcileBankDeposit(
+        string $verificationType,
+        string $verificationValue
+    ): Response {
+        return $this->post($this->getModeUrl() . 'transaction/reconcile/bank-deposit', [
+            'bankType' => "wemaBank",
+            'verificationType' => $verificationType,
+            'verificationValue' => $verificationValue
+        ]);
     }
 }

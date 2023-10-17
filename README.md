@@ -7,7 +7,9 @@ composer require zainpay/sdk:dev-main
 ```
 
 ## Installation Via download
+
 Download a release version from the [releases page](https://github.com/zainpay/zainpay-php-sdk). Extract, then:
+
 ```
  require 'path/to/src/autoload.php';
 ```
@@ -47,15 +49,17 @@ ZainBox::instantiate()
 ```
 
 **Response Methods**
-* [Response->hasSucceeded()](src/Response.php)
-* [Response->hasFailed()](src/Response.php)
-* [Response->getStatus()](src/Response.php)
-* [Response->getCode()](src/Response.php)
-* [Response->getData()](src/Response.php)
-* [Response->getDescription()](src/Response.php)
-* [Response->getResponse()](src/Response.php)
+
+- [Response->hasSucceeded()](src/Response.php)
+- [Response->hasFailed()](src/Response.php)
+- [Response->getStatus()](src/Response.php)
+- [Response->getCode()](src/Response.php)
+- [Response->getData()](src/Response.php)
+- [Response->getDescription()](src/Response.php)
+- [Response->getResponse()](src/Response.php)
 
 How to use Responses:
+
 ```php
 use Zainpay\SDK\Engine;
 use Zainpay\SDK\ZainBox;
@@ -70,11 +74,10 @@ var_dump($response->hasFailed());
 var_dump($response->getData());
 ```
 
-
 ### ZainBox
 
-Create a zainbox. <br/> 
-A zainbox is a virtual bucket that allows a merchant to create unlimited multiple virtual accounts. 
+Create a zainbox. <br/>
+A zainbox is a virtual bucket that allows a merchant to create unlimited multiple virtual accounts.
 
 ```php
 use Zainpay\SDK\Engine;
@@ -98,7 +101,9 @@ if ($response->hasSucceeded()){
 ```
 
 ### List ZainBoxes
+
 Get all your created zainboxes
+
 ```php
 use Zainpay\SDK\Engine;
 use Zainpay\SDK\ZainBox;
@@ -114,7 +119,6 @@ if ($response->hasSucceeded()){
     var_dump($response->getData());
 }
 ```
-
 
 ### Transaction List
 
@@ -135,8 +139,11 @@ if ($response->hasSucceeded()){
 ```
 
 ## Virtual Account
+
 ### Create Virtual Account
+
 Create a virtual account. Map a virtual account to a zainbox. A zainbox can hold multiple virtual accounts.
+
 ```php
 use Zainpay\SDK\Engine;
 use Zainpay\SDK\VirtualAccount;
@@ -161,11 +168,14 @@ if ($response->hasSucceeded()){
     echo "Virtual Account Created";
 }
 ```
+
 ### Get All Virtual Account
+
 Get all virtual accounts linked to a zainbox
+
 ```php
 use Zainpay\SDK\Engine;
-use Zainpay\SDK\VirtualAccount;
+use Zainpay\SDK\ZainBox;
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -179,9 +189,32 @@ if ($response->hasSucceeded()){
 }
 ```
 
+### Reconcile bank deposit payment
+
+If there is any deposit made into any virtual account and the transaction is yet to reflect in the virtual account, you can use this endpoint to reconcile it.
+
+```php
+use Zainpay\SDK\Engine;
+use Zainpay\SDK\VirtualAccount;
+
+require __DIR__ . '/vendor/autoload.php';
+
+Engine::setMode(Engine::MODE_DEVELOPMENT);
+Engine::setToken('<YOUR-ZAINPAY-TOKEN>');
+
+$response = \Zainpay\SDK\VirtualAccount::instantiate()->reconcileBankDeposit(
+'<verificationType>'
+'<verificationValue>'
+);
+if ($response->hasSucceeded()){
+    var_dump($response->getData());
+}
+```
+
 ### Card Initialization
+
 Card payment Initialization. <br/>
-To initialize Zainpay Card Payment, Amount should be in Kobo.
+To initialize Zainpay Card Payment, Amount should be in naira denomination.
 The data field of the response returned is a url which you can redirect your users to visit and make the payment.
 
 ```php
@@ -206,7 +239,9 @@ if ($response->hasSucceeded()){
     var_dump($response->getData());
 }
 ```
+
 ### Card Payment Verification
+
 ```php
 use Zainpay\SDK\Engine;
 use Zainpay\SDK\Card;
@@ -225,4 +260,26 @@ if ($response->hasSucceeded()){
 }
 ```
 
-For detailed documentation visit the [ZainPay Developer Documentation Page](https://zainpay.ng/developers/). 
+### Card Payment Reconciliation
+
+If there is any hanging card payment, you can use this endpoint to reconcile it.
+
+```php
+use Zainpay\SDK\Engine;
+use Zainpay\SDK\Card;
+
+require __DIR__ . '/vendor/autoload.php';
+
+Engine::setMode(Engine::MODE_DEVELOPMENT);
+Engine::setToken('<YOUR-ZAINPAY-TOKEN>');
+
+$response = Card::instantiate()->reconcileCardPayment(
+    '<Transaction-Reference>'
+);
+
+if ($response->hasSucceeded()){
+    var_dump($response->getData());
+}
+```
+
+For detailed documentation visit the [ZainPay Developer Documentation Page](https://zainpay.ng/developers/).
