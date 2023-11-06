@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.9] - 2023-11-06
+## Changes
+- added endpoints for getting card txn history by merchant or zainbox
+
 ## [1.0.8] - 2023-07-20
 ## Changes
 - added payment channel to the filtering
