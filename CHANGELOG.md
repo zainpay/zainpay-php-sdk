@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.0.0] - 2024-01-01
+## Changes
+- added exception handling to allow user to able to access response object when statusCode is not 200 | OK
+
 ## [1.0.9] - 2023-11-06
 ## Changes
 - added endpoints for getting card txn history by merchant or zainbox
