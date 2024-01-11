@@ -5,6 +5,7 @@ namespace Zainpay\SDK;
 use GuzzleHttp\Exception\GuzzleException;
 use Zainpay\SDK\Lib\RequestTrait;
 use Zainpay\SDK\Util\FilterUtil;
+
 class ZainBox
 {
     use RequestTrait;
@@ -54,7 +55,7 @@ class ZainBox
     }
 
     /**
-     * @param string|null $name
+     * @param string $name
      * @param string|null $emailNotification
      * @param array|null $tags
      * @param string|null $callbackUrl
@@ -64,17 +65,19 @@ class ZainBox
      * @throws GuzzleException
      */
     public function update(
-        string $name,
+        string  $name,
         ?string $emailNotification,
         ?array  $tags,
         ?string $callbackUrl,
-        ?bool $allowAutoInternalTransfer,
-        string $zainboxCode
+        ?string $description,
+        ?bool   $allowAutoInternalTransfer,
+        string  $zainboxCode
     ): Response {
         $payload = ['codeName' => $zainboxCode, 'name' => $name];
         (isset($tags)) ? $payload['tags'] = implode(",", $tags) : null;
         (isset($callbackUrl)) ? $payload['callbackUrl'] = $callbackUrl : null;
         (isset($emailNotification)) ? $payload['emailNotification'] = $emailNotification : null;
+        (isset($description)) ? $payload['description'] = $description : null;
         (isset($allowAutoInternalTransfer)) ? $payload['allowAutoInternalTransfer'] = $allowAutoInternalTransfer : null;
 
         return $this->patch($this->getModeUrl() . 'zainbox/update', $payload);
@@ -265,12 +268,12 @@ class ZainBox
      * @param float $percentage
      * @return array
      */
-    public function constructSettlementAccountPayload(string $accountNumber, string $bankCode, float $percentage): array
+    public function ConstructSettlementAccountPayload(string $accountNumber, string $bankCode, float $percentage)
     {
-        return [
+        return json_encode([
             "accountNumber" => $accountNumber,
             "bankCode"      => $bankCode,
             "percentage"    => strval($percentage),
-        ];
+        ]);
     }
 }

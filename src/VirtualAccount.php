@@ -75,6 +75,7 @@ class VirtualAccount
      * @param string $firstName
      * @param string $surname
      * @param string $email
+     * @param string $mobile
      * @param string $dob
      * @param string $gender
      * @param string $address
