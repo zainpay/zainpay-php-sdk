@@ -10,14 +10,6 @@ class ZainBox
 {
     use RequestTrait;
 
-    // name: String,
-    // callbackUrl: String,
-    // emailNotification: Option[String],
-    // description: Option[String],
-    // tags: Option[String],
-    // codeNamePrefix: Option[String],
-    // allowAutoInternalTransfer: Option[Boolean])
-
     /**
      * @param string $name
      * @param string $emailNotification
@@ -49,9 +41,7 @@ class ZainBox
         (isset($codeNamePrefix)) ? $payload['codeNamePrefix'] = $codeNamePrefix : null;
         (isset($allowAutoInternalTransfer)) ? $payload['allowAutoInternalTransfer'] = $allowAutoInternalTransfer : null;
 
-        return $this->post($this->getModeUrl() . 'zainbox/create/request', [
-            $payload
-        ]);
+        return $this->post($this->getModeUrl() . 'zainbox/create/request', $payload);
     }
 
     /**
