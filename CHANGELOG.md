@@ -1,8 +1,13 @@
 # Changelog
 
+## [2.0.1] - 2024-01-15
+## Changes
+- updated Documentation
+
 ## [2.0.0] - 2024-01-01
 ## Changes
 - added exception handling to allow user to access response object when statusCode is not 200 | OK
+- added error message to allow user get error description when the response has no body
 
 ## [1.0.9] - 2023-11-06
 ## Changes

@@ -70,116 +70,115 @@ Further more, methods are provided to help overwrite the globally set configurat
 object.<br/>
 The idea of overriding is brought to you for safe usage of this SDK within **async** environment.
 
-**Example: Global settings**
+  **Example: Global settings**
+  - Example showing how to set global token and mode that can be use throughout a class or system
 
-    ```php
-        use Zainpay\SDK\Engine;
+      ```php
+          use Zainpay\SDK\Engine;
 
-        require __DIR__ . '/vendor/autoload.php';
+          require __DIR__ . '/vendor/autoload.php';
 
-        Engine::setMode(Engine::MODE_DEVELOPMENT);
-        Engine::setToken('<PUBLIC_KEY>');
+          Engine::setMode(Engine::MODE_DEVELOPMENT);
+          Engine::setToken('<PUBLIC_KEY>');
 
-    ```
+      ```
 
-**Example: Override global settings**
+  **Example: Override global settings**
+  - Example showing how to override token and mode
+      ```php
+          use Zainpay\SDK\Engine;
+          use Zainpay\SDK\ZainBox;
 
-    ```php
-        use Zainpay\SDK\Engine;
-        use Zainpay\SDK\ZainBox;
+          require __DIR__ . '/vendor/autoload.php';
 
-        require __DIR__ . '/vendor/autoload.php';
+          // Set the mode to development (test server) and provide your public key
+          Engine::setMode(Engine::MODE_DEVELOPMENT);
+          Engine::setToken('<PUBLIC_KEY>');
 
-        // Set the mode to development (test server) and provide your public key
-        Engine::setMode(Engine::MODE_DEVELOPMENT);
-        Engine::setToken('<PUBLIC_KEY>');
+          // Alternatively, set the mode to production (live server)
+          Engine::setMode(Engine::MODE_PRODUCTION);
+          Engine::setToken('<PUBLIC_KEY>');
 
-        // Alternatively, set the mode to production (live server)
-        Engine::setMode(Engine::MODE_PRODUCTION);
-        Engine::setToken('<PUBLIC_KEY>');
+          // Or use the ZainBox class for more flexibility
+          ZainBox::instantiate()
+              ->withMode(Engine::MODE_PRODUCTION)
+              ->withToken('<PUBLIC_KEY>');
+      ```
 
-        // Or use the ZainBox class for more flexibility
-        ZainBox::instantiate()
-            ->withMode(Engine::MODE_PRODUCTION)
-            ->withToken('<PUBLIC_KEY>');
-    ```
+  **Note:**
+  The Engine class takes in the following parameters:
+  - **mode** - These are constant values, if set to **Engine::MODE_DEVELOPMENT**, it will use the [sandbox](https://sandbox.zainpay.ng/) API, if set to **Engine::MODE_PRODUCTION**, it will use the [production(live)](https://api.zainpay.ng/) API.
+  - **token** - This is your public key, which can be found on your [dashboard](https://zainpay.ng/merchant/dashboard/settings).
 
-**Note:**
-The Engine class takes in the following parameters:
-- **mode** - These are constant values, if set to **Engine::MODE_DEVELOPMENT**, it will use the [sandbox](https://sandbox.zainpay.ng/) API, if set to **Engine::MODE_PRODUCTION**, it will use the [production(live)](https://api.zainpay.ng/) API.
-- **token** - This is your public key, which can be found on your [dashboard](https://zainpay.ng/merchant/dashboard/settings).
+  - For more information about the services exposed by the SDK, please refer to the [documentation](https://zainpay.ng/developers/).
 
-- For more information about the services exposed by the SDK, please refer to the [documentation](https://zainpay.ng/developers/).
+  **Response Methods**
+  * [Response->hasSucceeded()](src/Response.php)   : check if the request has succeeded
+  * [Response->hasFailed()](src/Response.php)      : check if the request has failed
+  * [Response->getStatus()](src/Response.php)      : return response status
+  * [Response->getCode()](src/Response.php)        : return response code
+  * [Response->getData()](src/Response.php)        : return response data
+  * [Response->getDescription()](src/Response.php) : return response description
+  * [Response->getResponse()](src/Response.php)    : return the whole response
+  * [Response->getErrorMessage()](src/Response.php): return error message when the response doesn't have a body
 
-**Response Methods**
-* [Response->hasSucceeded()](src/Response.php)   : check if the request has succeeded
-* [Response->hasFailed()](src/Response.php)      : check if the request has failed
-* [Response->getStatus()](src/Response.php)      : return response status
-* [Response->getCode()](src/Response.php)        : return response code
-* [Response->getData()](src/Response.php)        : return response data
-* [Response->getDescription()](src/Response.php) : return response description
-* [Response->getResponse()](src/Response.php)    : return the whole response
-* [Response->getErrorMessage()](src/Response.php): return error message when the response doesn't have a body
+  **How to use Responses:**
+  - The example below shows how to access response using response methods;
+      ```php
+          use Zainpay\SDK\Engine;
+          use Zainpay\SDK\Card;
 
-How to use Responses:
+          require __DIR__ . '/vendor/autoload.php';
 
-    ```php
-        use Zainpay\SDK\Engine;
-        use Zainpay\SDK\Card;
+          Engine::setMode(Engine::MODE_DEVELOPMENT);
+          Engine::setToken('<PUBLIC_KEY>');
 
-        require __DIR__ . '/vendor/autoload.php';
+          $response = Card::instantiate()->initializeCardPayment(
+              '3000',
+              'Q6166237864',
+              'info@test.com',
+              '08000000000',
+              'THbfnDvK5o',
+              'https://example.net/webhook/zainpay',
+          );
 
-        Engine::setMode(Engine::MODE_DEVELOPMENT);
-        Engine::setToken('<PUBLIC_KEY>');
+          if ($response->hasSucceeded()){
+              var_dump($response->getCode());
+              var_dump($response->getStatus());
+              var_dump($response->getDescription());
+              var_dump($response->getData());
+          }
 
-        $response = Card::instantiate()->initializeCardPayment(
-            '3000',
-            'Q6166237864',
-            'info@test.com',
-            '08000000000',
-            'THbfnDvK5o',
-            'https://example.net/webhook/zainpay',
-        );
+          if ($response->hasFailed()){
+              var_dump($response->getErrorMessage());
+              var_dump($response->getCode());
+              var_dump($response->getStatus());
+              var_dump($response->getDescription());
+              var_dump($response->getData()); //this will return error fields or null if there is no data
+          }
+      ```
 
-        if ($response->hasSucceeded()){
-            var_dump($response->getCode());
-            var_dump($response->getStatus());
-            var_dump($response->getDescription());
-            var_dump($response->getData());
-        }
+      ***Response***
 
-        if ($response->hasFailed()){
-            var_dump($response->getCode());
-            var_dump($response->getStatus());
-            var_dump($response->getDescription());
-            var_dump($response->getData()); //this will return error fields or null if there is no data
-        }
-    ```
+      ```json
+          {
+              "code": "00",
+              "data": "https://dev.zainpay.ng/merchant/redirect-payment?e=V5fvxGjb8wwLvOPZXYyaNMlVZSDrkAdv4ne19X7uiCdqu0kNOOAkMcjbGjApMcivvyLb4vj4azuusyWqC87vtME5n1psVTXai0pIdH61aTdrWJhQFCuYV3a7xJSWiNdDndxh2zNQNl74l2gUpQwhniASWarYUXLl2soyAUAkeAPJ1pUPlTmZddNiYqzgSMhoO1T4OMWk",
+              "description": "card processing initialization",
+              "status": "200 OK"
+          }
+      ```
 
-    ***Response***
+  **Accessing the response using the response methods**
+  <!-- if hasSucceeded is true based on the response returned above from zainpay we can be able to access each of the response value using response methods as shown below -->
+    
+  ***$response->getStatus()*** : ```200 OK```
 
-    ```json
-        {
-            "code": "00",
-            "data": "https://dev.zainpay.ng/merchant/redirect-payment?e=V5fvxGjb8wwLvOPZXYyaNMlVZSDrkAdv4ne19X7uiCdqu0kNOOAkMcjbGjApMcivvyLb4vj4azuusyWqC87vtME5n1psVTXai0pIdH61aTdrWJhQFCuYV3a7xJSWiNdDndxh2zNQNl74l2gUpQwhniASWarYUXLl2soyAUAkeAPJ1pUPlTmZddNiYqzgSMhoO1T4OMWk",
-            "description": "card processing initialization",
-            "status": "200 OK"
-        }
-    ```
+  ***$response->getCode()*** : ```00```
 
-***Accessing the response using the response methods***
-<!-- if hasSucceeded is true based on the response returned above from zainpay we can be able to access each of the response value using response methods as shown below -->
-***$response->getStatus()*** : 
-```200 OK```
+  ***$response->getDescription()*** : ```card processing initialization```
 
-***$response->getCode()*** : 
-```00```
-
-***$response->getDescription()*** : 
-```card processing initialization```
-
-***$response->getData()*** : 
-```https://dev.zainpay.ng/merchant/redirect-payment?e=V5fvxGjb8wwLvOPZXYyaNMlVZSDrkAdv4ne19X7uiCdqu0kNOOAkMcjbGjApMcivvyLb4vj4azuusyWqC87vtME5n1psVTXai0pIdH61aTdrWJhQFCuYV3a7xJSWiNdDndxh2zNQNl74l2gUpQwhniASWarYUXLl2soyAUAkeAPJ1pUPlTmZddNiYqzgSMhoO1T4OMWk```
+  ***$response->getData()*** : ```https://dev.zainpay.ng/merchant/redirect-payment?e=V5fvxGjb8wwLvOPZXYyaNMlVZSDrkAdv4ne19X7uiCdqu0kNOOAkMcjbGjApMcivvyLb4vj4azuusyWqC87vtME5n1psVTXai0pIdH61aTdrWJhQFCuYV3a7xJSWiNdDndxh2zNQNl74l2gUpQwhniASWarYUXLl2soyAUAkeAPJ1pUPlTmZddNiYqzgSMhoO1T4OMWk```
 
 
 ## Card
@@ -325,6 +324,7 @@ How to use Responses:
 
 
 ### Get Card Transactions By Zainbox
+- The request can be used to get all card transaction for a particular zainbox
 
     ```php
         use Zainpay\SDK\Engine;
@@ -346,6 +346,7 @@ How to use Responses:
             var_dump($response->getData());
         }
     ```
+
     ***Response***
 
     ```json
@@ -381,6 +382,7 @@ How to use Responses:
     ```
 
 ### Get Card Transactions For All Zainboxes
+- The request can be used to get all card transactions for all zainboxes
 
     ```php
         use Zainpay\SDK\Engine;
@@ -402,38 +404,39 @@ How to use Responses:
             var_dump($response->getData());
         }
     ```
+
     ***Response***
 
     ```json
-    {
-        "code": "00",
-        "data": [
-            {
-                "amount": "19900.0",
-                "cardLastFourDigits": "",
-                "cardType": "others",
-                "paymentRef": "dVE8Dsh4brW3FNAJa5REEvnhICHmU9",
-                "settledAccountNumber": "7966884043",
-                "txnDate": "2023-10-03T12:10:08",
-                "txnRef": "txn_0065004100",
-                "txnStatus": "success",
-                "zainboxCode": "THbfnDvK5o"
-            },
-            {
-                "amount": "19900.0",
-                "cardLastFourDigits": "",
-                "cardType": "others",
-                "paymentRef": "uisygRZV6xzH0yYVuRzBp7dlXQ3bfC",
-                "settledAccountNumber": "7966884043",
-                "txnDate": "2023-10-03T11:28:53",
-                "txnRef": "txn_0065004099",
-                "txnStatus": "success",
-                "zainboxCode": "THbfnDvK5o"
-            },
-        ],
-        "description": "successful",
-        "status": "200 OK"
-    }
+      {
+          "code": "00",
+          "data": [
+              {
+                  "amount": "19900.0",
+                  "cardLastFourDigits": "",
+                  "cardType": "others",
+                  "paymentRef": "dVE8Dsh4brW3FNAJa5REEvnhICHmU9",
+                  "settledAccountNumber": "7966884043",
+                  "txnDate": "2023-10-03T12:10:08",
+                  "txnRef": "txn_0065004100",
+                  "txnStatus": "success",
+                  "zainboxCode": "THbfnDvK5o"
+              },
+              {
+                  "amount": "19900.0",
+                  "cardLastFourDigits": "",
+                  "cardType": "others",
+                  "paymentRef": "uisygRZV6xzH0yYVuRzBp7dlXQ3bfC",
+                  "settledAccountNumber": "7966884043",
+                  "txnDate": "2023-10-03T11:28:53",
+                  "txnRef": "txn_0065004099",
+                  "txnStatus": "success",
+                  "zainboxCode": "THbfnDvK5o"
+              },
+          ],
+          "description": "successful",
+          "status": "200 OK"
+      }
     ```
 
 ## Zainbox
@@ -649,12 +652,12 @@ The payload's settlementAccountList parameter is an array/list of bank accounts 
                 'T1',                  //scheduleType  - required (string)
                 'Daily',               //schedulePeriod - required (string)
                 [                      //settlementAccountList required (array) : contains list of ConstructSettlementAccountPayload
-                    ConstructSettlementAccountPayload(
+                    ZainBox::ConstructSettlementAccountPayload(
                         "1234567890", //accountNumber - required (string)
                         "0009",       //bankCode      - required (string)
                         "90"          //percentage    - required (float)
                     ),
-                    ConstructSettlementAccountPayload(
+                    ZainBox::ConstructSettlementAccountPayload(
                         "0234567892", //accountNumber - required (string)
                         "0020",       //bankCode      - required (string)
                         "10"          //percentage    - required (float)
