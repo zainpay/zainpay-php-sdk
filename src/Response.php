@@ -1,5 +1,4 @@
 <?php
-
 namespace Zainpay\SDK;
 
 use Psr\Http\Message\ResponseInterface;
@@ -28,7 +27,6 @@ class Response
         try {
             $decodedResponse = json_decode($body, true, 512, JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {
-            // Log or handle the JSON decoding error as needed
             $decodedResponse = null;
         }
 
@@ -57,7 +55,7 @@ class Response
 
     public function getDescription(): string
     {
-        return $this->decodedResponse['description'] ?? '';
+        return $this->decodedResponse['description'] ?? $this->response->getReasonPhrase();
     }
 
     public function getData()
@@ -68,6 +66,11 @@ class Response
     public function getResponse(): ResponseInterface
     {
         return $this->response;
+    }
+
+    public function getStatusCode(): int
+    {
+        return $this->response->getStatusCode();
     }
 
     public function setError(bool $error): self
