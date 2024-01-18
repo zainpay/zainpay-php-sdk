@@ -39,6 +39,7 @@ A PHP API wrapper for [Zainpay](https://zainpay.ng).
     - [Transfer Verification](#transfer-verification)
     - [Deposit Verification](#deposit-verification)
     - [Deposit Verification V2](#deposit-verification-v2)
+    - [Repush Deposit Event](#repush-deposit-event)
   - [Bank](#bank)
     - [Get Bank List](#get-bank-list)
     - [Name Enquiry](#name-enquiry)
@@ -1336,6 +1337,38 @@ The payload's settlementAccountList parameter is an array/list of bank accounts 
     ```
 
 
+
+### Repush Deposit Event
+- The request can be used to repush webhook deposit event.
+- 
+    ```php
+        use Zainpay\SDK\Engine;
+        use Zainpay\SDK\VirtualAccount;
+
+        require __DIR__ . '/vendor/autoload.php';
+
+        Engine::setMode(Engine::MODE_DEVELOPMENT);
+        Engine::setToken('<PUBLIC_KEY>');
+
+        $response = VirtualAccount::instantiate()->repushDeposit(
+            '51328349733' //txnRef - required (string)
+        );
+
+        if ($response->hasSucceeded()){
+            var_dump($response->getData());
+        }
+    ```
+
+    ***Response***
+    
+    ```json
+        {
+            "code": "00",
+            "description": "successfully queued",
+            "status": "200 OK"
+            
+        }
+    ```
 
 ## Bank
 

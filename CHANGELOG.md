@@ -4,6 +4,7 @@
 ## Changes
 - fixed payment collected summary by merchant
 - added endpoint for repushing deposit transaction
+- added repush deposit event to the documentation
 
 ## [2.0.0] - 2024-01-01
 ## Changes
