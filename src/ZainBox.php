@@ -248,7 +248,7 @@ class ZainBox
      */
     public function totalPaymentCollectedByMerchant(?string $dateFrom, ?string $dateTo): Response
     {
-        return $this->get($this->getModeUrl() . 'zainbox/transfer/deposit/summary', FilterUtil::ConstructFilterParams(null, null, null, $dateFrom, $dateTo));
+        return $this->get($this->getModeUrl() . 'zainbox/transactions/summary', FilterUtil::constructFilterParams(null, null, null, $dateFrom, $dateTo));
     }
 
 
