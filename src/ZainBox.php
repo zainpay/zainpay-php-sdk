@@ -5,17 +5,10 @@ namespace Zainpay\SDK;
 use GuzzleHttp\Exception\GuzzleException;
 use Zainpay\SDK\Lib\RequestTrait;
 use Zainpay\SDK\Util\FilterUtil;
+
 class ZainBox
 {
     use RequestTrait;
-
-    // name: String,
-    // callbackUrl: String,
-    // emailNotification: Option[String],
-    // description: Option[String],
-    // tags: Option[String],
-    // codeNamePrefix: Option[String],
-    // allowAutoInternalTransfer: Option[Boolean])
 
     /**
      * @param string $name
@@ -48,13 +41,11 @@ class ZainBox
         (isset($codeNamePrefix)) ? $payload['codeNamePrefix'] = $codeNamePrefix : null;
         (isset($allowAutoInternalTransfer)) ? $payload['allowAutoInternalTransfer'] = $allowAutoInternalTransfer : null;
 
-        return $this->post($this->getModeUrl() . 'zainbox/create/request', [
-            $payload
-        ]);
+        return $this->post($this->getModeUrl() . 'zainbox/create/request', $payload);
     }
 
     /**
-     * @param string|null $name
+     * @param string $name
      * @param string|null $emailNotification
      * @param array|null $tags
      * @param string|null $callbackUrl
@@ -64,17 +55,19 @@ class ZainBox
      * @throws GuzzleException
      */
     public function update(
-        string $name,
+        string  $name,
         ?string $emailNotification,
         ?array  $tags,
         ?string $callbackUrl,
-        ?bool $allowAutoInternalTransfer,
-        string $zainboxCode
+        ?string $description,
+        ?bool   $allowAutoInternalTransfer,
+        string  $zainboxCode
     ): Response {
         $payload = ['codeName' => $zainboxCode, 'name' => $name];
         (isset($tags)) ? $payload['tags'] = implode(",", $tags) : null;
         (isset($callbackUrl)) ? $payload['callbackUrl'] = $callbackUrl : null;
         (isset($emailNotification)) ? $payload['emailNotification'] = $emailNotification : null;
+        (isset($description)) ? $payload['description'] = $description : null;
         (isset($allowAutoInternalTransfer)) ? $payload['allowAutoInternalTransfer'] = $allowAutoInternalTransfer : null;
 
         return $this->patch($this->getModeUrl() . 'zainbox/update', $payload);
@@ -255,7 +248,7 @@ class ZainBox
      */
     public function totalPaymentCollectedByMerchant(?string $dateFrom, ?string $dateTo): Response
     {
-        return $this->get($this->getModeUrl() . 'zainbox/transfer/deposit/summary', FilterUtil::ConstructFilterParams(null, null, null, $dateFrom, $dateTo));
+        return $this->get($this->getModeUrl() . 'zainbox/transactions/summary', FilterUtil::constructFilterParams(null, null, null, $dateFrom, $dateTo));
     }
 
 
@@ -265,12 +258,12 @@ class ZainBox
      * @param float $percentage
      * @return array
      */
-    public function constructSettlementAccountPayload(string $accountNumber, string $bankCode, float $percentage): array
+    public function ConstructSettlementAccountPayload(string $accountNumber, string $bankCode, float $percentage)
     {
-        return [
+        return json_encode([
             "accountNumber" => $accountNumber,
             "bankCode"      => $bankCode,
             "percentage"    => strval($percentage),
-        ];
+        ]);
     }
 }

@@ -59,6 +59,7 @@ class Bank
      * @param string $zainboxCode
      * @param string $txnRef
      * @param string $narration
+     * @param string|null $callbackUrl
      * @return Response
      * @throws GuzzleException
      * @link https://zainpay.ng/developers/api-endpoints?section=funds-transfer
@@ -71,10 +72,11 @@ class Bank
         string $sourceBankCode,
         string $zainboxCode,
         string $txnRef,
-        string $narration
-    ): Response
-    {
-        return $this->post($this->getModeUrl() . 'bank/transfer', [
+        string $narration,
+        ?string $callbackUrl
+    ): Response {
+
+        $payload = [
             'destinationAccountNumber' => $destinationAccountNumber,
             'destinationBankCode' => $destinationBankCode,
             'amount' => $amount,
@@ -83,6 +85,10 @@ class Bank
             'zainboxCode' => $zainboxCode,
             'txnRef' => $txnRef,
             'narration' => $narration
-        ]);
+        ];
+
+        (isset($callbackUrl) && !is_null($callbackUrl)) ? $payload['callbackUrl'] = $callbackUrl : null;
+
+        return $this->post($this->getModeUrl() . 'bank/transfer', $payload);
     }
 }

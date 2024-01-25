@@ -69,12 +69,18 @@ class VirtualAccount
         return $this->get($this->getModeUrl() . 'virtual-account/wallet/deposit/verify/v2/' . $tnxId);
     }
 
+    public function repushDeposit(string $tnxRef): Response
+    {
+        return $this->get($this->getModeUrl() . 'zainbox/repush/deposit/' . $tnxRef);
+    }
+
     /**
      * Create a virtual account. Map a virtual account to a zainbox. A zainbox can hold multiple virtual accounts.
      *
      * @param string $firstName
      * @param string $surname
      * @param string $email
+     * @param string $mobile
      * @param string $dob
      * @param string $gender
      * @param string $address
