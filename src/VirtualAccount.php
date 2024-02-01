@@ -33,7 +33,7 @@ class VirtualAccount
      */
     public function transactionList(string $accountNumber, int $count = 20, ?string $txnType, ?string $paymentChannel, ?string $dateFrom,  ?string $dateTo): Response
     {
-        return $this->get($this->getModeUrl() . 'virtual-account/wallet/transactions/' . $accountNumber . "/". $count, FilterUtil::ConstructFilterParams(null, $txnType, $paymentChannel,$dateFrom, $dateTo) );
+        return $this->get($this->getModeUrl() . 'virtual-account/wallet/transactions/' . $accountNumber . "/" . $count, FilterUtil::ConstructFilterParams(null, $txnType, $paymentChannel, $dateFrom, $dateTo));
     }
 
     /**
@@ -77,6 +77,8 @@ class VirtualAccount
     /**
      * Create a virtual account. Map a virtual account to a zainbox. A zainbox can hold multiple virtual accounts.
      *
+     * @param string $bankType
+     * @param string $bvn
      * @param string $firstName
      * @param string $surname
      * @param string $email
@@ -93,6 +95,8 @@ class VirtualAccount
      * @link https://zainpay.ng/developers/api-endpoints?section=create-virtual-account
      */
     public function createVirtualAccount(
+        string $bankType = "wemaBank",
+        string $bvn,
         string $firstName,
         string $surname,
         string $email,
@@ -103,20 +107,20 @@ class VirtualAccount
         string $title,
         string $state,
         string $zainboxCode
-    ): Response
-    {
+    ): Response {
         return $this->post($this->getModeUrl() . 'virtual-account/create/request', [
-            'bankType' => "wemaBank",
-            'firstName' => $firstName,
-            'surname' => $surname,
-            'email' => $email,
+            'bankType'     => $bankType,
+            'bvn'          => $bvn,
+            'firstName'    => $firstName,
+            'surname'      => $surname,
+            'email'        => $email,
             'mobileNumber' => $mobile,
-            'dob' => $dob,
-            'gender' => $gender,
-            'address' => $address,
-            'title' => $title,
-            'state' => $state,
-            'zainboxCode' => $zainboxCode
+            'dob'          => $dob,
+            'gender'       => $gender,
+            'address'      => $address,
+            'title'        => $title,
+            'state'        => $state,
+            'zainboxCode'  => $zainboxCode
         ]);
     }
 
@@ -135,8 +139,7 @@ class VirtualAccount
         string $zainboxCode,
         string $accountNumber,
         bool   $status
-    ): Response
-    {
+    ): Response {
         return $this->patch($this->getModeUrl() . '/virtual-account/change/account/status', [
             'zainboxCode' => $zainboxCode,
             'accountNumber' => $accountNumber,
@@ -149,8 +152,7 @@ class VirtualAccount
      */
     public function allVirtualAccountsBalanceOfZainBox(
         String $zainboxCode
-    ): Response
-    {
-        return $this->get($this->getModeUrl(). '/zainbox/accounts/balance/'. $zainboxCode);
+    ): Response {
+        return $this->get($this->getModeUrl() . '/zainbox/accounts/balance/' . $zainboxCode);
     }
 }

@@ -1,5 +1,10 @@
 # Changelog
 
+## [3.0.1] - 2024-01-18
+## Changes
+- updated virtual account creation payload to accommodate bvn
+- updated README 
+
 ## [2.0.1] - 2024-01-18
 ## Changes
 - fixed payment collected summary by merchant
