@@ -929,6 +929,8 @@ The payload's settlementAccountList parameter is an array/list of bank accounts 
         Engine::setMode(Engine::MODE_DEVELOPMENT);
         Engine::setToken('<PUBLIC_KEY>');
         $response = VirtualAccount::instantiate()->createVirtualAccount(
+            'wemaBank'                      //bankType      - required (Enum[wemaBank, polaris, zainMFB])
+            '22000000000'                   //bvn           - required (string)
             'Nura'                          //firstName     - required (string)
             'Yusuf'                         //surname       - required (string)
             'test@gmail.com'                //email         - required (string)
