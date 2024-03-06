@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.2.0] - 2024-03-05
+## Changes
+- updated composer dependency requirement to accomodate php8.1 and php8.2
+
 ## [3.0.1] - 2024-01-18
 ## Changes
 - updated virtual account creation payload to accommodate bvn
