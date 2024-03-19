@@ -1,8 +1,9 @@
 # Changelog
 
-## [3.2.0] - 2024-03-05
+## [3.0.2] - 2024-03-19
 ## Changes
-- updated composer dependency requirement to accomodate php8.1 and php8.2
+- added endpoints for reconciling card and bank deposit
+
 
 ## [3.0.1] - 2024-01-18
 ## Changes
