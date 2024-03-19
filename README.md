@@ -1414,7 +1414,7 @@ The payload's settlementAccountList parameter is an array/list of bank accounts 
 
 ### Reconcile Bank Deposit
 - The request can be used to reconcile when payer has been debited or transferred the money but it does not appear on merchant transactions list.
-- Note: Merchant can either reconcile using depositReferenceNumber or depositAccountNumber
+- Note: Merchant can reconcile by using either depositReferenceNumber or depositAccountNumber
 - 
     ```php
         use Zainpay\SDK\Engine;
