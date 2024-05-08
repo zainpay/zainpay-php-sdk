@@ -46,6 +46,12 @@ class Card
         return $this->get($this->getModeUrl() . 'virtual-account/wallet/deposit/verify/v2/' . $transactionReference);
     }
 
+    public function reconcileCardPayment(
+        String $transactionReference
+    ): Response {
+        return $this->get($this->getModeUrl() . 'virtual-account/wallet/transaction/reconcile/card-payment', ['txnRef' => $transactionReference]);
+    }
+
     /**
      * Get a list of card transactions from a particular zainbox
      *

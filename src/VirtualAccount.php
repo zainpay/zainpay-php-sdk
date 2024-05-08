@@ -155,4 +155,20 @@ class VirtualAccount
     ): Response {
         return $this->get($this->getModeUrl() . '/zainbox/accounts/balance/' . $zainboxCode);
     }
+
+    public function reconcileBankDeposit(
+        string $verificationType,
+        string $bankType,
+        string $accountNumber,
+        ?string $sessionId
+    ): Response {
+        $params = [
+            'verificationType' => $verificationType,
+            'bankType' => $bankType,
+            'accountNumber' => $accountNumber
+        ];
+        (isset($sessionId) && !empty($sessionId)) ? $params['sessionId'] = $sessionId : "";
+
+        return $this->get($this->getModeUrl() . 'virtual-account/wallet/transaction/reconcile/bank-deposit', $params);
+    }
 }

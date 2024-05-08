@@ -18,6 +18,7 @@ A PHP API wrapper for [Zainpay](https://zainpay.ng).
     - [Card Payment Verification V2](#card-payment-verification-v2)
     - [Get Card Transactions By Zainbox](#get-card-transactions-by-zainbox)
     - [Get Card Transactions For All Zainboxes](#get-card-transactions-for-all-zainboxes)
+    - [Reconcile Card Payment](#reconcile-card-payment)
   - [Zainbox](#zainbox)
     - [Create Zainbox](#create-zainbox)
     - [Get All Zainboxes](#get-all-zainboxes)
@@ -40,6 +41,7 @@ A PHP API wrapper for [Zainpay](https://zainpay.ng).
     - [Deposit Verification](#deposit-verification)
     - [Deposit Verification V2](#deposit-verification-v2)
     - [Repush Deposit Event](#repush-deposit-event)
+    - [Reconcile Bank Deposit](#reconcile-bank-deposit)
   - [Bank](#bank)
     - [Get Bank List](#get-bank-list)
     - [Name Enquiry](#name-enquiry)
@@ -338,7 +340,7 @@ The idea of overriding is brought to you for safe usage of this SDK within **asy
 
         $response = Card::instantiate()->zainboxTransactionHistory(
             'THbxyfjkd20',  //zainboxCode -  required (string)
-            20,             //count       -  required (int)         : specify how many records you want to return  
+            20,             //count       -  required (int)         : specify how many records you want   
             '2023-11-01',   //dateFrom    -  optional (string|null) : specify start date 
             '2023-11-30'    //dateTo      -  optional (string|null) : specify end date
         );
@@ -439,6 +441,44 @@ The idea of overriding is brought to you for safe usage of this SDK within **asy
           "status": "200 OK"
       }
     ```
+
+### Reconcile Card Payment
+- The request can be used in a scenario where payer has been debited and payment does not reflect on transactions list
+
+    ```php
+        use Zainpay\SDK\Engine;
+        use Zainpay\SDK\Card;
+
+        require __DIR__ . '/vendor/autoload.php';
+
+        Engine::setMode(Engine::MODE_DEVELOPMENT);
+        Engine::setToken('<PUBLIC_KEY>');
+
+        $response = Card::instantiate()->reconcileCardPayment(
+            'CARD1234',  //txnRef -  required (string)
+        );
+
+        if ($response->hasSucceeded()){
+            var_dump($response->getData());
+        }
+    ```
+
+    ***Response***
+
+    ```json
+        {
+            "code": "00",
+            "data": {
+                "paymentRef": "abUoNagV7ls4LaABR6qSWmyz1vOVBW",
+        		"txnDate": "2023-08-14T15:27:03",
+        		"txnRef": "txn_000060",
+        		"txnStatus": "success"
+            },
+            "description": "successful",
+            "status": "200 OK"
+        }
+    ```
+
 
 ## Zainbox
 
@@ -1357,7 +1397,7 @@ The payload's settlementAccountList parameter is an array/list of bank accounts 
         );
 
         if ($response->hasSucceeded()){
-            var_dump($response->getData());
+            var_dump($response->getDescription());
         }
     ```
 
@@ -1369,6 +1409,50 @@ The payload's settlementAccountList parameter is an array/list of bank accounts 
             "description": "successfully queued",
             "status": "200 OK"
             
+        }
+    ```
+
+### Reconcile Bank Deposit
+- The request can be used to reconcile when payer has been debited or transferred the money but it does not appear on merchant transactions list.
+- Note: Merchant can reconcile by using either depositReferenceNumber or depositAccountNumber
+- 
+    ```php
+        use Zainpay\SDK\Engine;
+        use Zainpay\SDK\VirtualAccount;
+
+        require __DIR__ . '/vendor/autoload.php';
+
+        Engine::setMode(Engine::MODE_DEVELOPMENT);
+        Engine::setToken('<PUBLIC_KEY>');
+
+        //depositAccountNumber example
+        $response = VirtualAccount::instantiate()->reconcileBankDeposit(
+            'depositAccountNumber', //verificationType - required (Enum[depositAccountNumber, depositReferenceNumber])
+            'wemaBank', // bankType - required (Enum[wemaBank, polaris, fcmb, zainMFB])
+            '51328349733', //accountNumber - required (string)
+            null        //sessionId - optional (string|null)
+        );
+
+        //depositReferenceNumber example
+        $response = VirtualAccount::instantiate()->reconcileBankDeposit(
+            'depositReferenceNumber', //verificationType - required (Enum[depositAccountNumber, depositReferenceNumber])
+            'wemaBank', // bankType - required (Enum[wemaBank, polaris, fcmb, zainMFB])
+            '51328349733' //accountNumber - required (string)
+            '000017231128997' //sessionId - optional (string|null)
+        );
+
+        if ($response->hasSucceeded()){
+            var_dump($response->getDescription());
+        }
+    ```
+
+    ***Response***
+    
+    ```json
+        {
+            "code": "00",
+        	"description": "Deposit verification was successful",
+        	"status": "200 OK"
         }
     ```
 
