@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.2.2] - 2024-12-25
+## Changes
+- updated card txn endpoint to accomodate filtering by email, status and txnRef
+- removed endpoint for getting all card txn for a merchant
+- updated documentation with the new card txn list response
+
 ## [3.2.1] - 2024-03-19
 ## Changes
 - added endpoints for reconciling card and bank deposit

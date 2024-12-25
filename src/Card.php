@@ -14,12 +14,12 @@ class Card
      * @throws GuzzleException
      */
     public function initializeCardPayment(
-        String $amount,
-        String $txnRef,
-        String $emailAddress,
-        String $mobileNumber,
-        String $zainboxCode,
-        String $callBackUrl
+        string $amount,
+        string $txnRef,
+        string $emailAddress,
+        string $mobileNumber,
+        string $zainboxCode,
+        string $callBackUrl
     ): Response {
         return $this->post($this->getModeUrl() . 'zainbox/card/initialize/payment', [
             'amount' => $amount,
@@ -35,19 +35,19 @@ class Card
      * @throws GuzzleException
      */
     public function verifyCardPayment(
-        String $transactionReference
+        string $transactionReference
     ): Response {
         return $this->get($this->getModeUrl() . 'virtual-account/wallet/deposit/verify/' . $transactionReference);
     }
 
     public function verifyCardPaymentV2(
-        String $transactionReference
+        string $transactionReference
     ): Response {
         return $this->get($this->getModeUrl() . 'virtual-account/wallet/deposit/verify/v2/' . $transactionReference);
     }
 
     public function reconcileCardPayment(
-        String $transactionReference
+        string $transactionReference
     ): Response {
         return $this->get($this->getModeUrl() . 'virtual-account/wallet/transaction/reconcile/card-payment', ['txnRef' => $transactionReference]);
     }
@@ -59,30 +59,16 @@ class Card
      * @param int $count
      * @param string $dateFrom
      * @param string $dateTo
+     * @param string $email
+     * @param string $status
+     * @param string $txnRef
      * @return Response
      * @throws GuzzleException
      *
      * @link https://zainpay.ng/developers/api-endpoints?section=
      */
-    public function zainboxTransactionHistory(string $zainboxCode, int $count = 20, ?string $dateFrom,  ?string $dateTo): Response
+    public function zainboxTransactionHistory(string $zainboxCode, int $count = 20, ?string $dateFrom, ?string $dateTo, ?string $email, ?string $status, ?string $txnRef): Response
     {
-        return $this->get($this->getModeUrl() . 'zainbox/card/transactions/' . $zainboxCode, FilterUtil::CardTxnHistoryFilterParams(null, $count, $dateFrom, $dateTo));
-    }
-
-    /**
-     * Get a list of card transactions by merchant
-     *
-     * @param string $zainboxCode
-     * @param int $count
-     * @param string $dateFrom
-     * @param string $dateTo
-     * @return Response
-     * @throws GuzzleException
-     *
-     * @link https://zainpay.ng/developers/api-endpoints?section=
-     */
-    public function merchantTransactionHistory(?string $zainboxCode, int $count = 20, ?string $dateFrom,  ?string $dateTo): Response
-    {
-        return $this->get($this->getModeUrl() . 'zainbox/card/transactions', FilterUtil::CardTxnHistoryFilterParams($zainboxCode, $count, $dateFrom, $dateTo));
+        return $this->get($this->getModeUrl() . 'zainbox/card/transactions/' . $zainboxCode, FilterUtil::CardTxnHistoryFilterParams(null, $count, $dateFrom, $dateTo, $email, $status, $txnRef));
     }
 }
