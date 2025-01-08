@@ -17,7 +17,6 @@ A PHP API wrapper for [Zainpay](https://zainpay.ng).
     - [Card Payment Verification](#card-payment-verification)
     - [Card Payment Verification V2](#card-payment-verification-v2)
     - [Get Card Transactions By Zainbox](#get-card-transactions-by-zainbox)
-    - [Get Card Transactions For All Zainboxes](#get-card-transactions-for-all-zainboxes)
     - [Reconcile Card Payment](#reconcile-card-payment)
   - [Zainbox](#zainbox)
     - [Create Zainbox](#create-zainbox)
@@ -339,10 +338,13 @@ The idea of overriding is brought to you for safe usage of this SDK within **asy
         Engine::setToken('<PUBLIC_KEY>');
 
         $response = Card::instantiate()->zainboxTransactionHistory(
-            'THbxyfjkd20',  //zainboxCode -  required (string)
-            20,             //count       -  required (int)         : specify how many records you want   
-            '2023-11-01',   //dateFrom    -  optional (string|null) : specify start date 
-            '2023-11-30'    //dateTo      -  optional (string|null) : specify end date
+            'THbxyfjkd20',        //zainboxCode -  required (string)
+            20,                   //count       -  required (int)         : specify how many records you want   
+            '2023-11-01',         //dateFrom    -  optional (string|null) : specify start date 
+            '2023-11-30'          //dateTo      -  optional (string|null) : specify end date
+            'info@betastack.ng'   //email       -  optional (string|null) : specify payer email address
+            'success'             //status      -  optional (string|null) : specify txn status (e.g success)
+            'txn3002747'          //txnRef      -  optional (string|null) : specify txnRef
         );
 
         if ($response->hasSucceeded()){
@@ -357,89 +359,61 @@ The idea of overriding is brought to you for safe usage of this SDK within **asy
             "code": "00",
             "data": [
                 {
-                    "amount": "19900.0",
-                    "cardLastFourDigits": "",
-                    "cardType": "others",
-                    "paymentRef": "dVE8Dsh4brW3FNAJa5REEvnhICHmU9",
-                    "settledAccountNumber": "7966884043",
-                    "txnDate": "2023-10-03T12:10:08",
-                    "txnRef": "txn_0065004100",
-                    "txnStatus": "success",
-                    "zainboxCode": "THbfnDvK5o"
-                },
-                {
-                    "amount": "19900.0",
-                    "cardLastFourDigits": "",
-                    "cardType": "others",
-                    "paymentRef": "uisygRZV6xzH0yYVuRzBp7dlXQ3bfC",
-                    "settledAccountNumber": "7966884043",
-                    "txnDate": "2023-10-03T11:28:53",
-                    "txnRef": "txn_0065004099",
-                    "txnStatus": "success",
-                    "zainboxCode": "THbfnDvK5o"
-                },
+        			"allowRecurringPayment": true,
+        			"amount": "30000",
+        			"createdOn": "2024-12-24T11:41:10",
+        			"currencyCode": "NGN",
+        			"emailAddress": "info@betastack.ng",
+        			"mobileNumber": "08068869102",
+        			"paymentCategory": "byCard",
+        			"txnRef": "txn_00000054",
+        			"txnStatus": "initiated",
+        			"zainboxCode": "THbfnDvK5o"
+        		},
+        		{
+        			"allowRecurringPayment": true,
+        			"amount": "30000",
+        			"cardBasicInfo": {
+        				"cardExpiryDate": "5003",
+        				"cardType": "master",
+        				"maskedPanAndScheme": "******7499"
+        			},
+        			"conversionRate": "1",
+        			"createdOn": "2024-12-16T21:06:43",
+        			"currencyCode": "NGN",
+        			"emailAddress": "info@betastack.ng",
+        			"mobileNumber": "08068869102",
+        			"narration": "Approved by financial institution",
+        			"paymentCategory": "byCard",
+        			"paymentRef": "tILr2UiunUfrkJXLwjHn5oo3S3bqqv",
+        			"txnRef": "txn_00000053",
+        			"txnStatus": "success",
+        			"zainboxCode": "THbfnDvK5o"
+        		},
+        		{
+        			"allowRecurringPayment": true,
+        			"amount": "30000",
+        			"cardBasicInfo": {
+        				"cardExpiryDate": "5003",
+        				"cardType": "master",
+        				"maskedPanAndScheme": "******7499"
+        			},
+        			"conversionRate": "1",
+        			"createdOn": "2024-12-13T10:50:01",
+        			"currencyCode": "NGN",
+        			"emailAddress": "info@betastack.ng",
+        			"mobileNumber": "08068869102",
+        			"narration": "Approved by financial institution",
+        			"paymentCategory": "byCard",
+        			"paymentRef": "X4qZ0INUGuEBpqDTEll7YtijeLvL45",
+        			"txnRef": "txn_00000052",
+        			"txnStatus": "success",
+        			"zainboxCode": "THbfnDvK5o"
+        		},
             ],
             "description": "successful",
             "status": "200 OK"
         }
-    ```
-
-### Get Card Transactions For All Zainboxes
-- The request can be used to get all card transactions for all zainboxes
-
-    ```php
-        use Zainpay\SDK\Engine;
-        use Zainpay\SDK\Card;
-
-        require __DIR__ . '/vendor/autoload.php';
-
-        Engine::setMode(Engine::MODE_DEVELOPMENT);
-        Engine::setToken('<PUBLIC_KEY>');
-
-        $response = Card::instantiate()->merchantTransactionHistory(
-            null,    //zainboxCode - optional (string|null)  : filter by zainboxCode or null to return all zainboxes
-            20,      //count       - required (int), specify : how many records you want to return  
-            null,    //dateFrom    - optional (string|null)  : specify start date 
-            null     //dateTo      - optional (string|null)  : specify end date
-        );
-
-        if ($response->hasSucceeded()){
-            var_dump($response->getData());
-        }
-    ```
-
-    ***Response***
-
-    ```json
-      {
-          "code": "00",
-          "data": [
-              {
-                  "amount": "19900.0",
-                  "cardLastFourDigits": "",
-                  "cardType": "others",
-                  "paymentRef": "dVE8Dsh4brW3FNAJa5REEvnhICHmU9",
-                  "settledAccountNumber": "7966884043",
-                  "txnDate": "2023-10-03T12:10:08",
-                  "txnRef": "txn_0065004100",
-                  "txnStatus": "success",
-                  "zainboxCode": "THbfnDvK5o"
-              },
-              {
-                  "amount": "19900.0",
-                  "cardLastFourDigits": "",
-                  "cardType": "others",
-                  "paymentRef": "uisygRZV6xzH0yYVuRzBp7dlXQ3bfC",
-                  "settledAccountNumber": "7966884043",
-                  "txnDate": "2023-10-03T11:28:53",
-                  "txnRef": "txn_0065004099",
-                  "txnStatus": "success",
-                  "zainboxCode": "THbfnDvK5o"
-              },
-          ],
-          "description": "successful",
-          "status": "200 OK"
-      }
     ```
 
 ### Reconcile Card Payment
