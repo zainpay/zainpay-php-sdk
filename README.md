@@ -1032,7 +1032,7 @@ The payload's settlementAccountList parameter is an array/list of bank accounts 
         Engine::setMode(Engine::MODE_DEVELOPMENT);
         Engine::setToken('<PUBLIC_KEY>');
 
-        $response = VirtualAccount::instantiate()->listVirtualAccounts(
+        $response = VirtualAccount::instantiate()->changeVirtualAccountStatus(
         'zainboxCode', //zainboxCode - required (string)
         '7966884043',  //virtualAccoutNumber - required (string)
         true           //status - required (boolean)
