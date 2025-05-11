@@ -27,4 +27,14 @@ class FilterUtil
         (!empty($txnRef)) ? $params['txnRef'] = $txnRef : "";
         return $params;
     }
+
+    public static function SettlementPaymentFilterParams(?int $count, ?string $status, ?string $dateFrom, ?string $dateTo)
+    {
+        $params = [];
+        (!empty($count)) ? $params['count'] = $count : $params['count'] = 20;
+        (!empty($status)) ? $params['status'] = $status : "";
+        (!empty($dateFrom)) ? $params['dateFrom'] = $dateFrom : "";
+        (!empty($dateTo)) ? $params['dateTo'] = $dateTo : "";
+        return $params;
+    }
 }

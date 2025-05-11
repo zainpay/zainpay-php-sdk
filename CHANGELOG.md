@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.2.4] - 2025-05-07
+## Changes
+- added endpoints for fetching and filtering settlement history for a zainbox
+
 ## [3.2.2] - 2024-12-25
 ## Changes
 - updated card txn endpoint to accomodate filtering by email, status and txnRef

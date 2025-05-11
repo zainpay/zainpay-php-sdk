@@ -204,6 +204,26 @@ class ZainBox
         return $this->get($this->getModeUrl() . 'zainbox/settlement', ['zainboxCode' => $zainboxCode]);
     }
 
+
+    /**
+     * Get the sum of total amount collected by all virtual accounts for a merchant in a particular period,
+     * for both transfer and deposit transactions
+     *
+     * @param string $zainboxCode
+     * @param int $count
+     * @param string $status
+     * @param string $dateFrom
+     * @param string $dateTo
+     * @return Response
+     * @throws GuzzleException
+     *
+     * @link https://zainpay.ng/developers/api-endpoints?section=settment-payments-by-zainbox
+     */
+    public function settlementPaymentsHistory(string $zainboxCode, ?int $count, ?string $status, ?string $dateFrom, ?string $dateTo): Response
+    {
+        return $this->get($this->getModeUrl() . 'zainbox/settlement/histoory/' . $zainboxCode, FilterUtil::SettlementPaymentFilterParams($count, $status, $dateFrom, $dateTo));
+    }
+
     /**
      * This endpoint fetches all current account balances for all virtual accounts in a zainbox.
      *
