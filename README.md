@@ -28,6 +28,7 @@ A PHP API wrapper for [Zainpay](https://zainpay.ng).
     - [Get Total Payment Collected By Zainbox](#get-total-payment-collected-by-zainbox)
     - [Get Total Payment Collected For All Zainboxes](#get-total-payment-collected-for-all-zainboxes)
     - [Get Zainbox Transaction List](#get-zainbox-transaction-list)
+    - [Get Zainbox Settlement Payments Hostory List](#get-zainbox-settlement-payments-hostory-list)
     - [Get Zainbox Virtual Accounts](#get-zainbox-virtual-accounts)
   - [Virtual Account](#virtual-account)
     - [Create Virtual Account](#create-virtual-account)
@@ -45,7 +46,6 @@ A PHP API wrapper for [Zainpay](https://zainpay.ng).
     - [Get Bank List](#get-bank-list)
     - [Name Enquiry](#name-enquiry)
     - [Fund Transfer](#fund-transfer)
-
 ## Requirements
 - Curl (Unless using Guzzle)
 - PHP 7.4 or more recent version
@@ -890,6 +890,71 @@ The payload's settlementAccountList parameter is an array/list of bank accounts 
                 "transactionRef": "",
                 "transactionType": "deposit"
             }],
+            "description": "successful",
+            "status": "Success"
+        }
+    ```
+
+### Get Zainbox Settlement Payments Hostory List
+
+- This request enables you to Get a list of settlement payments from a particular zainbox
+
+    ```php
+        use Zainpay\SDK\Engine;
+        use Zainpay\SDK\ZainBox;
+
+        require __DIR__ . '/vendor/autoload.php';
+
+        Engine::setMode(Engine::MODE_DEVELOPMENT);
+        Engine::setToken('<PUBLIC_KEY>');
+
+        $response = ZainBox::instantiate()->settlementPaymentsHistory(
+            'zainboxCode',   //zainboxCode - required (string)
+            20,              //count       - required (int)         : number of transactions you 
+            'pending',       //status      - optional (string|null) : use to filter settlement ortherwise use null value. e.g [pending|success|failed]
+            null,           //dateFrom    - optional (string|null) : use to filter settlement ortherwise use null value.
+            null,          //dateTo      - optional (string|null) : use to filter settlement ortherwise use null value.
+        );
+
+        if ($response->hasSucceeded()){
+            var_dump($response->getData());
+        }
+    ```
+    ***Response***
+    ```json
+        {
+            "code": "00",
+            "data": [
+            {
+    			"amount": "36822143",
+    			"bankCode": "0009",
+    			"beneficiaryAccountNumber": "1234567890",
+    			"codeName": "THbfnDvK5o",
+    			"createdOn": "2023-10-05 16:39:46",
+    			"id": "7bccdcd9-0514-4988-b85f-48ab965a313c",
+    			"name": "testing-box",
+    			"percentageShare": 90,
+    			"settlementPeriod": "THbfnDvK5o_2023-10-04_1234567890_0009",
+    			"status": "pending",
+    			"totalSharedAmount": "40913492.54",
+    			"txnRef": "AUTO_SETL_H95UMbhHiilR16e42Ao9",
+    			"zainboxCode": "THbfnDvK5o"
+    		},
+    		{
+    			"amount": "4091349",
+    			"bankCode": "0009",
+    			"beneficiaryAccountNumber": "1234567890",
+    			"codeName": "THbfnDvK5o",
+    			"createdOn": "2023-10-05 16:39:46",
+    			"id": "ec9df27c-e600-49f3-9690-eca31378ec1d",
+    			"name": "testing-box",
+    			"percentageShare": 10,
+    			"settlementPeriod": "THbfnDvK5o_2023-10-04_1234567890_0009",
+    			"status": "pending",
+    			"totalSharedAmount": "40913492.54",
+    			"txnRef": "AUTO_SETL_aYBgHHSkE1vvhKtEQRve",
+    			"zainboxCode": "THbfnDvK5o"
+    		}],
             "description": "successful",
             "status": "Success"
         }
