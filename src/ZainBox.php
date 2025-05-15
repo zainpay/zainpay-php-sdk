@@ -221,7 +221,7 @@ class ZainBox
      */
     public function settlementPaymentsHistory(string $zainboxCode, ?int $count, ?string $status, ?string $dateFrom, ?string $dateTo): Response
     {
-        return $this->get($this->getModeUrl() . 'zainbox/settlement/histoory/' . $zainboxCode, FilterUtil::SettlementPaymentFilterParams($count, $status, $dateFrom, $dateTo));
+        return $this->get($this->getModeUrl() . 'zainbox/settlement/history/' . $zainboxCode, FilterUtil::SettlementPaymentFilterParams($count, $status, $dateFrom, $dateTo));
     }
 
     /**
