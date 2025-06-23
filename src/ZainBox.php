@@ -61,7 +61,8 @@ class ZainBox
         ?string $callbackUrl,
         ?string $description,
         ?bool   $allowAutoInternalTransfer,
-        string  $zainboxCode
+        string  $zainboxCode,
+        ?bool $status
     ): Response {
         $payload = ['codeName' => $zainboxCode, 'name' => $name];
         (isset($tags)) ? $payload['tags'] = implode(",", $tags) : null;
@@ -69,7 +70,8 @@ class ZainBox
         (isset($emailNotification)) ? $payload['emailNotification'] = $emailNotification : null;
         (isset($description)) ? $payload['description'] = $description : null;
         (isset($allowAutoInternalTransfer)) ? $payload['allowAutoInternalTransfer'] = $allowAutoInternalTransfer : null;
-
+        (isset($status)) ? $payload['status'] = $status : null;
+        
         return $this->patch($this->getModeUrl() . 'zainbox/update', $payload);
     }
 
@@ -77,9 +79,13 @@ class ZainBox
      * @return Response
      * @throws GuzzleException
      */
-    public function list(): Response
+    public function list(?bool $status = null): Response
     {
-        return $this->get($this->getModeUrl() . 'zainbox/list');
+        $params = [];
+        if (isset($status) && !is_null($status)) {
+            $params['status'] = $status;
+        }
+        return $this->get($this->getModeUrl() . 'zainbox/list', $params);
     }
 
     /**
