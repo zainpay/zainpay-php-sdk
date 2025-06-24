@@ -1,5 +1,10 @@
 # Changelog
 
+## [3.2.5] - 2025-06-23
+## Changes
+- updated zainbox list endpoint to be filtering by status (active or inactive)
+- updated update-zainbox endpoint for activating or deactivating zainbox
+
 ## [3.2.4] - 2025-05-07
 ## Changes
 - added endpoints for fetching and filtering settlement history for a zainbox
