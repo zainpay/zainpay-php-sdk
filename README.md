@@ -23,6 +23,7 @@ A PHP API wrapper for [Zainpay](https://zainpay.ng).
     - [Get All Zainboxes](#get-all-zainboxes)
     - [Update Zainbox](#update-zainbox)
     - [Zainbox Profile and Current Billing Plan](#zainbox-profile-and-current-billing-plan)
+    - [Zainbox ISA (Internal Settlement Account)](#zainbox-isa-internal-settlement-account)
     - [Create Or Update  Zainbox Settlement](#create-or-update--zainbox-settlement)
     - [Get Zainbox Settlement](#get-zainbox-settlement)
     - [Get Total Payment Collected By Zainbox](#get-total-payment-collected-by-zainbox)
@@ -631,6 +632,43 @@ The idea of overriding is brought to you for safe usage of this SDK within **asy
                     "percentageCharge": 1.4
                 }
             }
+        }
+    ```
+
+### Zainbox ISA (Internal Settlement Account)
+- Get a Zainbox internal settlement account
+
+    ```php
+        use Zainpay\SDK\Engine;
+        use Zainpay\SDK\ZainBox;
+
+        require __DIR__ . '/vendor/autoload.php';
+
+        Engine::setMode(Engine::MODE_DEVELOPMENT);
+        Engine::setToken('<PUBLIC_KEY>');
+
+        $response = ZainBox::instantiate()->internalSettlementAccount(
+            '<ZainboxCode>' //zainboxCode - required (string)
+        );
+
+        if ($response->hasSucceeded()){
+            var_dump($response->getData());
+        }
+    ```
+    ***Response***
+    ```json
+        {
+            "code": "00",
+            "description": "successful",
+            "status": "Success",
+            "data": [
+                {
+        			"bankAccount": "1233798287",
+        			"bankName": "035",
+        			"bankType": "wemaBank",
+        			"name": "Pos Account Account "
+        		}
+            ]
         }
     ```
 

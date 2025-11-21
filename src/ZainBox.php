@@ -159,6 +159,20 @@ class ZainBox
     }
 
     /**
+     *  Get the internal settlement account of a Zainbox
+     *
+     * @param string $zainboxCode
+     * @return Response
+     * @throws GuzzleException
+     *
+     * @link https://zainpay.ng/developers/api-endpoints?section=zainbox-isa
+     */
+    public function internalSettlementAccount(string $zainboxCode): Response
+    {
+        return $this->get($this->getModeUrl() . 'zainbox/isa/' . $zainboxCode);
+    }
+
+    /**
      * For Scheduling Settlement
      *
      * Create a scheduled settlement for a zainbox
