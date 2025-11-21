@@ -169,7 +169,7 @@ class ZainBox
      */
     public function internalSettlementAccount(string $zainboxCode): Response
     {
-        return $this->get($this->getModeUrl() . 'zainbox/isa/' . $zainboxCode);
+        return $this->get($this->getModeUrl() . 'zainbox/internal-settlement-account/' . $zainboxCode);
     }
 
     /**
