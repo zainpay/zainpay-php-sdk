@@ -661,14 +661,12 @@ The idea of overriding is brought to you for safe usage of this SDK within **asy
             "code": "00",
             "description": "successful",
             "status": "Success",
-            "data": [
-                {
+            "data": {
         			"bankAccount": "1233798287",
         			"bankName": "035",
         			"bankType": "wemaBank",
-        			"name": "Pos Account Account "
-        		}
-            ]
+        			"name": "Pos Account Account"
+            }
         }
     ```
 
