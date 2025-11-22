@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.2.6] - 2025-11-21
+## Changes
+- added an endpoint for getting zainbox ISA (internal settlement account)
+
 ## [3.2.5] - 2025-06-23
 ## Changes
 - updated zainbox list endpoint to be filtering by status (active or inactive)
