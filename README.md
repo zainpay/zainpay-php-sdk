@@ -47,6 +47,12 @@ A PHP API wrapper for [Zainpay](https://zainpay.ng).
     - [Get Bank List](#get-bank-list)
     - [Name Enquiry](#name-enquiry)
     - [Fund Transfer](#fund-transfer)
+  - [Notification Service Subscription]
+    - [Get Active Subscription](#get-active-subscriptions)
+    - [Get Subscription History](#get-subscriptions-history)
+    - [Subscribe to a notification service](#subscribe-to-a-service)
+    - [Unubscribe from a notification service](#unsubscribe-from-a-service)
+    
 ## Requirements
 - Curl (Unless using Guzzle)
 - PHP 7.4 or more recent version
@@ -1668,7 +1674,162 @@ The payload's settlementAccountList parameter is an array/list of bank accounts 
         }  
     ```
 
+## Notification Service Subscription
 
+### Get Active Subscriptions
+- This request enables a merchant to get the list of notification subscribed to on Zainpay. 
+
+    ```php
+        use Zainpay\SDK\Engine;
+        use Zainpay\SDK\NotificationServiceSubscription;
+
+        require __DIR__ . '/vendor/autoload.php';
+
+        Engine::setMode(Engine::MODE_DEVELOPMENT);
+        Engine::setToken('<PUBLIC_KEY>');
+        $response = NotificationServiceSubscription::instantiate()->activeList(
+            "zainboxCode"   //zainboxCode       - required (string)
+        );
+        if ($response->hasSucceeded()){
+            var_dump($response->getData());
+        }
+    ```
+
+    ***Response***
+    ```json
+       {
+        "code": "00",
+        "data": [
+            {
+                "id": "6b570268-fcee-4af6-832b-33dbb76f4708",
+                "isActive": true,
+                "serviceName": "emailNotificationForInflows",
+                "subscribedAt": "2026-03-14T15:26:38.543525",
+                "zainboxCode": "THbfnDvK5o"
+            }
+        ],
+        "description": "successful",
+        "status": "200 OK"
+    }
+    ```
+
+### Get Subscriptions History
+- This allow a merchant to view list of all services subscribed and unscribed to on zainpay.
+
+    ```php
+        use Zainpay\SDK\Engine;
+        use Zainpay\SDK\NotificationServiceSubscription;
+
+
+        require __DIR__ . '/vendor/autoload.php';
+
+        Engine::setMode(Engine::MODE_DEVELOPMENT);
+        Engine::setToken('<PUBLIC_KEY>');
+
+        $response = NotificationServiceSubscription::instantiate()->history(
+            "zainboxCode"   //zainboxCode       - required (string)
+        )
+
+        if ($response->hasSucceeded()){
+            var_dump($response->getData());
+        }
+    ```
+
+    ***Response***
+    ```json
+    {
+        "code": "00",
+        "data": [
+            {
+                "id": "6b570268-fcee-4af6-832b-33dbb76f4708",
+                "isActive": true,
+                "serviceName": "emailNotificationForInflows",
+                "subscribedAt": "2026-03-14T15:26:38.543525",
+                "zainboxCode": "THbfnDvK5o"
+            }
+        ],
+        "description": "successful",
+        "status": "200 OK"
+    }
+    ```
+
+### Subscribe to a service
+- This allow a merchant to subscribe to a notification service on zainpay.
+
+    ```php
+        use Zainpay\SDK\Engine;
+        use Zainpay\SDK\NotificationServiceSubscription;
+
+
+        require __DIR__ . '/vendor/autoload.php';
+
+        Engine::setMode(Engine::MODE_DEVELOPMENT);
+        Engine::setToken('<PUBLIC_KEY>');
+
+        $response = NotificationServiceSubscription::instantiate()->subscribe(
+            "zainboxCode"   //zainboxCode       - required (string)
+        )
+
+        if ($response->hasSucceeded()){
+            var_dump($response->getData());
+        }
+    ```
+
+    ***Response***
+    ```json
+    {
+        "code": "00",
+        "data": {
+            "id": "6b570268-fcee-4af6-832b-33dbb76f4708",
+            "isActive": true,
+            "serviceName": "emailNotificationForInflows",
+            "subscribedAt": "2026-03-14T15:26:38.543525",
+            "zainboxCode": "THbfnDvK5o"
+        },
+        "description": "successful",
+        "status": "200 OK"
+    }
+    ```
+
+
+### Unsubscribe from a service
+- This allow a merchant to unscribe from notification service on zainpay.
+
+    ```php
+        use Zainpay\SDK\Engine;
+        use Zainpay\SDK\NotificationServiceSubscription;
+
+
+        require __DIR__ . '/vendor/autoload.php';
+
+        Engine::setMode(Engine::MODE_DEVELOPMENT);
+        Engine::setToken('<PUBLIC_KEY>');
+
+        $response = NotificationServiceSubscription::instantiate()->unsubscribe(
+            "zainboxCode"   //zainboxCode       - required (string)
+        )
+
+        if ($response->hasSucceeded()){
+            var_dump($response->getData());
+        }
+    ```
+
+    ***Response***
+    ```json
+    {
+        "code": "00",
+        "data": {
+            "id": "f374d6aa-4e7a-468d-ace3-67849502c724",
+            "isActive": false,
+            "serviceName": "emailNotificationForInflows",
+            "subscribedAt": "2026-03-14T13:51:10.112977",
+            "unsubscribedAt": "2026-03-14T13:51:10.112896",
+            "zainboxCode": "THbfnDvK5o"
+        },
+        "description": "successful",
+        "status": "200 OK"
+    }
+    ```
 
 
 For detailed documentation visit the [ZainPay Developer Documentation Page](https://zainpay.ng/developers/). 
