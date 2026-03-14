@@ -1755,6 +1755,11 @@ The payload's settlementAccountList parameter is an array/list of bank accounts 
 
 ### Subscribe to a service
 - This allow a merchant to subscribe to a notification service on zainpay.
+    service names are;
+    * emailNotificationForInflows            
+    * emailNotificationForSuccessfulTransfers
+    * emailNotificationForFailedTransfers    
+    * emailNotificationForReversedTransfers  
 
     ```php
         use Zainpay\SDK\Engine;
