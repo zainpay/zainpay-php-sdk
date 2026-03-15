@@ -13,6 +13,8 @@
 ## [3.2.6] - 2025-11-21
 ## Changes
 - added endpoints for notification service subscription
+- added request methods that doesnt require auth in RequestTrait
+- added endpoints for generating auth token and regenerating of auth keys (secretKey)
 
 ## [3.2.6] - 2025-11-21
 ## Changes
