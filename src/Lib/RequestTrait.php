@@ -142,6 +142,54 @@ trait RequestTrait
     }
 
 
+    /**
+     * @throws GuzzleException
+     */
+    public function postWithoutAuth(string $url, array $data, array $headers = []): Response
+    {
+        $client = $this->createClient([
+            'headers' => array_merge([
+                'Content-type' => 'application/json',
+            ], $headers)
+        ]);
+
+        try {
+            $response = $client->post($url, [
+                'json' => $data,
+            ]);
+
+            return new Response($response);
+        } catch (\GuzzleHttp\Exception\ServerException $e) {
+            return self::HandleServerExceptionResponse($e);
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+            return self::HandleClientExceptionResponse($e);
+        }
+    }
+
+    /**
+     * @throws GuzzleException
+     */
+    public function getWithoutAuth(string $url, array $params = [], array $headers = []): Response
+    {
+        $client = $this->createClient([
+            'headers' => array_merge([
+                'Content-type' => 'application/json',
+            ], $headers)
+        ]);
+
+        try {
+            $response = $client->get($url, [
+                'query' => $params,
+            ]);
+
+            return new Response($response);
+        } catch (\GuzzleHttp\Exception\ServerException $e) {
+            return self::HandleServerExceptionResponse($e);
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+            return self::HandleClientExceptionResponse($e);
+        }
+    }
+
     protected function createClient(array $config): Client
     {
         return new Client($config);
