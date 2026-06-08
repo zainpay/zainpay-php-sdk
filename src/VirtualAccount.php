@@ -23,6 +23,19 @@ class VirtualAccount
         return $this->get($this->getModeUrl() . 'virtual-account/wallet/balance/' . $accountNumber);
     }
 
+/**
+     * Get the current wallet balance of a virtual account number
+     *
+     * @param string $accountNumber
+     * @return Response
+     * @throws GuzzleException
+     * @link https://zainpay.ng/developers/api-endpoints?section=virtual-account-balance-v2
+     */
+    public function balanceV2(string $accountNumber): Response
+    {
+        return $this->get($this->getModeUrl() . 'virtual-account/wallet/balance/v2/' . $accountNumber);
+    }
+
     /**
      * Get all transactions of an account
      *
