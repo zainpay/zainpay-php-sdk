@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.2.8] - 2026-06-08
+## Changes
+- added check virtual account balance v2 endpoint
+
 ## [3.2.7] - 2025-11-21
 ## Changes
 - added endpoints for notification service subscription
