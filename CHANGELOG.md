@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.2.9] - 2026-06-15
+## Changes
+- updated transfer endpoint to be using v2 instead of v1
+
 ## [3.2.8] - 2026-06-08
 ## Changes
 - added check virtual account balance v2 endpoint

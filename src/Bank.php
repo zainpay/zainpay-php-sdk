@@ -89,6 +89,6 @@ class Bank
 
         (isset($callbackUrl) && !is_null($callbackUrl)) ? $payload['callbackUrl'] = $callbackUrl : null;
 
-        return $this->post($this->getModeUrl() . 'bank/transfer', $payload);
+        return $this->post($this->getModeUrl() . 'bank/transfer/v2', $payload);
     }
 }
